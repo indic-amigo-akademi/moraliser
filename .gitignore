@@ -1,6 +1,6 @@
 
-# Created by https://www.toptal.com/developers/gitignore/api/flask,vscode,vue,python
-# Edit at https://www.toptal.com/developers/gitignore?templates=flask,vscode,vue,python
+# Created by https://www.toptal.com/developers/gitignore/api/flask,python,vscode,vue,vuejs
+# Edit at https://www.toptal.com/developers/gitignore?templates=flask,python,vscode,vue,vuejs
 
 ### Flask ###
 instance/*
@@ -24,8 +24,6 @@ dist/
 downloads/
 eggs/
 .eggs/
-lib/
-lib64/
 parts/
 sdist/
 var/
@@ -102,6 +100,9 @@ ipython_config.py
 #   install all needed dependencies.
 #Pipfile.lock
 
+# poetry
+#poetry.lock
+
 # PEP 582; used by e.g. github.com/David-OConnor/pyflow
 __pypackages__/
 
@@ -113,8 +114,9 @@ celerybeat.pid
 *.sage.py
 
 # Environments
-.env
-.venv
+# .env
+.env/
+.venv/
 env/
 venv/
 ENV/
@@ -143,8 +145,13 @@ dmypy.json
 # pytype static type analyzer
 .pytype/
 
+# operating system-related files
+*.DS_Store #file properties cache/storage on macOS
+Thumbs.db #thumbnail cache on Windows
+
 # profiling data
 .prof
+
 
 ### Python ###
 # Byte-compiled / optimized / DLL files
@@ -185,6 +192,8 @@ dmypy.json
 #   having no cross-platform support, pipenv may install dependencies that don't work, or not
 #   install all needed dependencies.
 
+# poetry
+
 # PEP 582; used by e.g. github.com/David-OConnor/pyflow
 
 # Celery stuff
@@ -192,6 +201,7 @@ dmypy.json
 # SageMath parsed files
 
 # Environments
+# .env
 
 # Spyder project settings
 
@@ -205,7 +215,10 @@ dmypy.json
 
 # pytype static type analyzer
 
+# operating system-related files
+
 # profiling data
+
 
 ### vscode ###
 .vscode/*
@@ -226,4 +239,11 @@ docs/_book
 # TODO: where does this rule come from?
 test/
 
-# End of https://www.toptal.com/developers/gitignore/api/flask,vscode,vue,python
+### Vuejs ###
+# Recommended template: Node.gitignore
+
+node_modules/
+npm-debug.log
+yarn-error.log
+
+# End of https://www.toptal.com/developers/gitignore/api/flask,python,vscode,vue,vuejs

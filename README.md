@@ -12,3 +12,7 @@ A simple chat software with adult and slang filter
 - "Oslil"
 - "Eh"
 - "Yeaman"
+
+## UI Design
+
+<https://www.behance.net/gallery/93164379/Social-Concept-Application>
