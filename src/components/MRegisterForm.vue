@@ -74,11 +74,14 @@ export default {
       data.append('username', this.username)
       data.append('password', this.password)
 
-      fetch(`http://${location.hostname}:${location.port}/#/api/register`, {
+      fetch(`http://${location.hostname}:${location.port}/api/register`, {
         method: 'POST',
         body: data
       })
-        .then((res) => res.json())
+        .then((res) => {
+          if (res.status !== 200) { throw Error(res.statusText) }
+          return res.json()
+        })
         .then((msg) => {
           console.log(msg)
         })
