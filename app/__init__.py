@@ -1,7 +1,9 @@
 import os
 from flask import Flask, current_app, send_file
+from .api import api_bp
 
 app = Flask(__name__, static_folder='../dist/static')
+app.register_blueprint(api_bp)
 
 from .config import Config
 # app.logger.info('>>> {}'.format(Config.FLASK_ENV))

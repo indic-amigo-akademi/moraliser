@@ -1,1 +1,25 @@
+$themedcolors: (
+    'primary': $blue,
+    'secondary': $pink,
+    'success': $green,
+    'danger': $red, 
+    'info': $teal, 
+    'warning': $yellow
+);
 
+@each $name, $color in $themedcolors {
+    .chat-#{$name}{
+        background-color: lighten($color, 5%);
+        color: $white;
+        border: 1px solid $color;
+        &:after {
+            border-left: 10px solid transparent;
+            border-right: 10px solid transparent;
+            border-bottom: 10px solid $color;
+        }
+    }
+}
+
+.chatbox-input-container{
+    background-color: darken($white, 10%);
+}

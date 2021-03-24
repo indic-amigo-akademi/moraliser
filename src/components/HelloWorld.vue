@@ -2,7 +2,15 @@
   <div class="hello jumbotron">
     <h1>{{ msg }}</h1>
     <p class="lead">A new safe and filtered messaging app.</p>
-    <a class="btn btn-primary" href="#" role="button">Getting Started</a>
+    <a
+      class="btn btn-primary"
+      data-toggle="modal"
+      data-target="#reglogModal"
+      href="#"
+      role="button"
+    >
+      Getting Started
+    </a>
   </div>
 </template>
 

@@ -32,6 +32,7 @@ main {
   -webkit-box-flex: 1;
   -ms-flex: 1 0 auto;
   flex: 1 0 auto;
+  overflow: hidden;
 }
 
 header,
