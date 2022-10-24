@@ -5,9 +5,7 @@ import store from "./store";
 
 // import "./filters";
 
-// import 'bootstrap'
-// import 'jquery'
-// import '@popperjs/core'
+import "bootstrap";
 import "./styles/style.scss";
 
 // Vue.config.productionTip = false;

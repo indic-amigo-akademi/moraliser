@@ -57,7 +57,7 @@ export default {
         position: relative;
         width: 100%;
         padding: 0.5rem;
-        border-radius: 1.5rem;
+        // border-radius: 1.5rem;
         border-top-left-radius: 0;
         &:after {
             content: "";

@@ -17,6 +17,7 @@
     "scripts": {
         "serve": "vue-cli-service serve --open",
         "build": "vue-cli-service build",
+        "watch": "vue-cli-service build --watch",
         "lint": "vue-cli-service lint",
         "postinstall": "npm build"
     },
@@ -41,13 +42,14 @@
                 "always"
             ],
             "space-before-function-paren": [
-                "error",
+                "warn",
                 "never"
             ],
             "quotes": [
                 "error",
                 "double"
-            ]
+            ],
+            "vue/no-unused-components": "warn"
         }
     },
     "postcss": {
