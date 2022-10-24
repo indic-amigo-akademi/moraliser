@@ -1,79 +1,96 @@
 {
-	"name": "moraliser",
-	"version": "1.0.0",
-	"description": "A simple chat software with adult and slang filter",
-	"repository": {
-		"type": "git",
-		"url": "git+https://github.com/indic-amigo-akademi/moraliser.git"
-	},
-	"keywords": [],
-	"author": "",
-	"license": "ISC",
-	"bugs": {
-		"url": "https://github.com/indic-amigo-akademi/moraliser/issues"
-	},
-	"homepage": "https://github.com/indic-amigo-akademi/moraliser#readme",
-	"private": true,
-	"scripts": {
-		"serve": "vue-cli-service serve --open",
-		"build": "vue-cli-service build",
-		"lint": "vue-cli-service lint",
-		"postinstall": "npm build"
-	},
-	"dependencies": {
-		"@popperjs/core": "^2.9.1",
-		"axios": "^0.21.1",
-		"bootstrap": "^4.6.0",
-		"jquery": "^3.6.0",
-		"moment": "^2.29.1",
-		"vue": "^2.5.13",
-		"vue-material-design-icons": "^4.11.0",
-		"vue-router": "^3.0.1",
-		"vuex": "^3.0.1"
-	},
-	"devDependencies": {
-		"@vue/cli-plugin-babel": "^3.0.0-beta.6",
-		"@vue/cli-plugin-eslint": "^3.0.0-beta.6",
-		"@vue/cli-service": "^4.5.12",
-		"@vue/eslint-config-standard": "^3.0.0-beta.6",
-		"lint-staged": "^6.0.0",
-		"node-sass": "^4.7.2",
-		"sass-loader": "^6.0.6",
-		"vue-template-compiler": "^2.5.13"
-	},
-	"babel": {
-		"presets": [
-			"@vue/app"
-		]
-	},
-	"eslintConfig": {
-		"root": true,
-		"extends": [
-			"plugin:vue/essential",
-			"@vue/standard"
-		]
-	},
-	"postcss": {
-		"plugins": {
-			"autoprefixer": {}
-		}
-	},
-	"browserslist": [
-		"> 1%",
-		"last 2 versions",
-		"not ie <= 8"
-	],
-	"gitHooks": {
-		"pre-commit": "lint-staged"
-	},
-	"lint-staged": {
-		"*.js": [
-			"vue-cli-service lint",
-			"git add"
-		],
-		"*.vue": [
-			"vue-cli-service lint",
-			"git add"
-		]
-	}
+    "name": "moraliser",
+    "version": "0.2.0",
+    "description": "A simple chat software with adult and slang filter",
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/indic-amigo-akademi/moraliser.git"
+    },
+    "keywords": [],
+    "author": "",
+    "license": "ISC",
+    "bugs": {
+        "url": "https://github.com/indic-amigo-akademi/moraliser/issues"
+    },
+    "homepage": "https://github.com/indic-amigo-akademi/moraliser#readme",
+    "private": true,
+    "scripts": {
+        "serve": "vue-cli-service serve --open",
+        "build": "vue-cli-service build",
+        "watch": "vue-cli-service build --watch",
+        "lint": "vue-cli-service lint",
+        "postinstall": "npm build"
+    },
+    "babel": {
+        "presets": [
+            "@vue/app"
+        ]
+    },
+    "eslintConfig": {
+        "root": true,
+        "extends": [
+            "plugin:vue/essential",
+            "@vue/standard"
+        ],
+        "rules": {
+            "indent": [
+                "error",
+                4
+            ],
+            "semi": [
+                "error",
+                "always"
+            ],
+            "space-before-function-paren": [
+                "warn",
+                "never"
+            ],
+            "quotes": [
+                "error",
+                "double"
+            ],
+            "vue/no-unused-components": "warn"
+        }
+    },
+    "postcss": {
+        "plugins": {
+            "autoprefixer": {}
+        }
+    },
+    "browserslist": [
+        "> 1%",
+        "last 2 versions",
+        "not ie <= 8"
+    ],
+    "gitHooks": {
+        "pre-commit": "lint-staged"
+    },
+    "lint-staged": {
+        "*.js": [
+            "vue-cli-service lint",
+            "git add"
+        ],
+        "*.vue": [
+            "vue-cli-service lint",
+            "git add"
+        ]
+    },
+    "devDependencies": {
+        "@vue/cli-plugin-babel": "^5.0.8",
+        "@vue/cli-plugin-eslint": "^5.0.8",
+        "@vue/cli-service": "^5.0.8",
+        "@vue/eslint-config-standard": "^8.0.1",
+        "babel-eslint": "^10.1.0",
+        "bootstrap": "^5.2.2",
+        "eslint-plugin-vue": "^9.6.0",
+        "lint-staged": "^13.0.3",
+        "moment": "^2.29.4",
+        "sass": "^1.55.0",
+        "sass-loader": "^13.1.0",
+        "vue": "^3.2.41",
+        "vue-material-design-icons": "^5.1.2",
+        "vue-router": "^4.1.5",
+        "vue-template-compiler": "^2.7.13",
+        "vuex": "^4.1.0"
+    }
 }

@@ -1,43 +1,43 @@
 <template>
-  <div id="app">
-    <mheader></mheader>
-    <main>
-      <router-view />
-    </main>
-  </div>
+    <div id="app">
+        <m-header></m-header>
+        <main>
+            <router-view />
+        </main>
+    </div>
 </template>
 
 <script>
-import MHeader from './components/MHeader'
+import MHeader from "@/components/MHeader";
 
 export default {
-  name: 'app',
-  components: {
-    mheader: MHeader
-  }
-}
+    name: "m-app",
+    components: {
+        MHeader
+    }
+};
 </script>
 
 <style lang="scss">
 body,
 #app {
-  display: flex;
-  width: 100%;
-  height: 100vh;
-  flex-direction: column;
+    display: flex;
+    width: 100%;
+    height: 100vh;
+    flex-direction: column;
 }
 
 main {
-  padding: 0;
-  -webkit-box-flex: 1;
-  -ms-flex: 1 0 auto;
-  flex: 1 0 auto;
-  overflow: hidden;
+    padding: 0;
+    -webkit-box-flex: 1;
+    -ms-flex: 1 0 auto;
+    flex: 1 0 auto;
+    overflow: hidden;
 }
 
 header,
 footer {
-  flex-shrink: 0;
-  border-radius: 0px;
+    flex-shrink: 0;
+    border-radius: 0px;
 }
 </style>
