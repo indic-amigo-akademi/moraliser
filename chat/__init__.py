@@ -1,11 +1,16 @@
 import os
 from flask import Flask, current_app, send_file
+from flask_sqlalchemy import SQLAlchemy
 from .api import api_bp
 
+# Initialise App and Config
 app = Flask(__name__, static_folder='../dist/static')
-app.register_blueprint(api_bp)
+app.config.from_object('chat.config.Config')
 
-from .config import Config
+db = SQLAlchemy(app)
+
+# API Routes
+app.register_blueprint(api_bp)
 # app.logger.info('>>> {}'.format(Config.FLASK_ENV))
 
 
