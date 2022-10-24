@@ -1,6 +1,6 @@
 import { createRouter, createWebHashHistory } from "vue-router";
-import Home from "./views/Home.vue";
-import Chat from "./views/Chat.vue";
+import Home from "./views/MHome.vue";
+import Chat from "./views/MChat.vue";
 
 export default createRouter({
     history: createWebHashHistory(),

@@ -1,7 +1,7 @@
 <template>
     <div class="chat">
         <div class="chatbox-container" id="chatboxContainer">
-            <MCChatbox v-for="(item, index) in chats" :key="index" v-bind="item" />
+            <m-chat-box v-for="(item, index) in chats" :key="index" v-bind="item" />
         </div>
 
         <div class="chatbox-input-container">
@@ -16,7 +16,7 @@
                     />
                     <input class="d-none" type="file" name="image" multiple />
                     <button class="btn btn-primary rounded-circle" type="submit">
-                        <MdSend />
+                        <send-icon />
                     </button>
                 </div>
             </form>
@@ -54,8 +54,8 @@ export default {
         // });
     },
     components: {
-        MCChatbox,
-        MdSend
+        "m-chat-box": MCChatbox,
+        "send-icon": MdSend
         // NotifyTune
     },
     methods: {
