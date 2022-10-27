@@ -250,3 +250,4 @@ yarn-error.log
 
 *.csv
 
+migrations
