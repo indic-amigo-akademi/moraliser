@@ -33,6 +33,10 @@ class RegisterForm(FlaskForm):
             ),
             DataRequired()
         ])
-    phone = StringField(label="Phone Number",
+    phone = StringField(label="Phone Number:",
                         validators=[Length(min=10, max=15),
                                     DataRequired()])
+
+class LoginForm(FlaskForm):
+    username = StringField(label='User Name:', validators=[DataRequired()])
+    password = PasswordField(label='Password:', validators=[DataRequired()])

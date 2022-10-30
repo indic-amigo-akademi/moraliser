@@ -1,23 +1,3 @@
-<template>
-    <div id="app">
-        <m-header></m-header>
-        <main>
-            <router-view />
-        </main>
-    </div>
-</template>
-
-<script>
-import MHeader from "@/components/MHeader";
-
-export default {
-    name: "m-app",
-    components: {
-        MHeader
-    }
-};
-</script>
-
 <style lang="scss">
 body,
 #app {
@@ -41,3 +21,48 @@ footer {
     border-radius: 0px;
 }
 </style>
+
+<template>
+    <div id="app">
+        <m-header></m-header>
+        <main>
+            <router-view />
+        </main>
+    </div>
+</template>
+
+<script>
+import MHeader from "@/components/MHeader";
+import store from "@/store";
+
+export default {
+    name: "m-app",
+    components: {
+        MHeader
+    },
+    mounted() {
+        const data = new FormData();
+        const csrfToken = document.querySelector("meta[name='csrf_token']").getAttribute("content");
+
+        data.append("csrf_token", csrfToken);
+
+        fetch(`http://${location.hostname}:${location.port}/api/current`, {
+            method: "POST",
+            body: data
+        })
+            .then((res) => {
+                if (res.status !== 200) {
+                    throw Error(res.statusText);
+                }
+                return res.json();
+            })
+            .then((res) => {
+                console.log(res);
+                store.commit("setAuthUser", { user: res.user });
+            })
+            .catch((err) => {
+                console.error(err);
+            });
+    }
+};
+</script>

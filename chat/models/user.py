@@ -29,3 +29,12 @@ class User(db.Model, UserMixin):
     def check_password(self, attempted_password):
         return bcrypt.check_password_hash(self.password_hash,
                                           attempted_password)
+
+    @property
+    def serialize(self):
+        return {
+            "id": self.id,
+            "username": self.username,
+            "email": self.email,
+            "phone": self.phone
+        }
