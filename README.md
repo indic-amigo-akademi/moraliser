@@ -37,3 +37,22 @@ npm run build
 ```bash
 pip install -r requirements.txt
 ```
+
+- Initialise for database migration
+
+```bash
+flask db init
+```
+
+- To create db migration
+
+```bash
+flask db migrate -m "Added User Table"
+```
+
+- To run migration
+
+```bash
+flask db upgrade
+```
+

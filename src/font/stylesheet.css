@@ -1,4 +1,4 @@
-@font-face {
+/* @font-face {
     font-family: 'Circular Std';
     src: url('CircularStd-MediumItalic.eot');
     src: local('Circular Std Medium Italic'), local('CircularStd-MediumItalic'),
@@ -8,9 +8,9 @@
         url('CircularStd-MediumItalic.ttf') format('truetype');
     font-weight: 500;
     font-style: italic;
-}
+} */
 
-@font-face {
+/* @font-face {
     font-family: 'Circular Std';
     src: url('CircularStd-Black.eot');
     src: local('Circular Std Black'), local('CircularStd-Black'),
@@ -20,9 +20,9 @@
         url('CircularStd-Black.ttf') format('truetype');
     font-weight: 900;
     font-style: normal;
-}
+} */
 
-@font-face {
+/* @font-face {
     font-family: 'Circular Std';
     src: url('CircularStd-Medium.eot');
     src: local('Circular Std Medium'), local('CircularStd-Medium'),
@@ -32,7 +32,7 @@
         url('CircularStd-Medium.ttf') format('truetype');
     font-weight: 500;
     font-style: normal;
-}
+} */
 
 @font-face {
     font-family: 'Circular Std';
@@ -46,7 +46,7 @@
     font-style: normal;
 }
 
-@font-face {
+/* @font-face {
     font-family: 'Circular Std';
     src: url('CircularStd-BlackItalic.eot');
     src: local('Circular Std Black Italic'), local('CircularStd-BlackItalic'),
@@ -56,9 +56,9 @@
         url('CircularStd-BlackItalic.ttf') format('truetype');
     font-weight: 900;
     font-style: italic;
-}
+} */
 
-@font-face {
+/* @font-face {
     font-family: 'Circular Std Book';
     src: url('CircularStd-BookItalic.eot');
     src: local('Circular Std Book Italic'), local('CircularStd-BookItalic'),
@@ -68,9 +68,9 @@
         url('CircularStd-BookItalic.ttf') format('truetype');
     font-weight: normal;
     font-style: italic;
-}
+} */
 
-@font-face {
+/* @font-face {
     font-family: 'Circular Std';
     src: url('CircularStd-BoldItalic.eot');
     src: local('Circular Std Bold Italic'), local('CircularStd-BoldItalic'),
@@ -80,7 +80,7 @@
         url('CircularStd-BoldItalic.ttf') format('truetype');
     font-weight: bold;
     font-style: italic;
-}
+} */
 
 @font-face {
     font-family: 'Circular Std Book';

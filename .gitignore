@@ -201,7 +201,7 @@ Thumbs.db #thumbnail cache on Windows
 # SageMath parsed files
 
 # Environments
-# .env
+.env
 
 # Spyder project settings
 
@@ -249,3 +249,5 @@ yarn-error.log
 # End of https://www.toptal.com/developers/gitignore/api/flask,python,vscode,vue,vuejs
 
 *.csv
+
+migrations

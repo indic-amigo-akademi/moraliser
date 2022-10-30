@@ -1,5 +1,5 @@
 from flask import request, jsonify
-from . import api_bp
+from chat.api import api_bp
 import pickle
 import re
 
@@ -29,7 +29,8 @@ class TextSpamClassifier():
 
 class TextProfanityClassifier():
     def __init__(self) -> None:
-        with open('notebooks/profanity_filter/model_profanity.pickle', 'rb') as handle:
+        with open('notebooks/profanity_filter/model_profanity.pickle',
+                  'rb') as handle:
             self.model = pickle.load(handle)
         with open('notebooks/profanity_filter/vectorizer_profanity.pickle',
                   'rb') as handle:
@@ -67,7 +68,11 @@ def text_chat_validate():
         spam_text = "Less spam!"
     elif tsc.predict_proba(message) > 0.2:
         spam_text = "I don't think spam!"
-        
+
+    prof_prob = tpc.predict_proba(message)
+    if prof_prob > 0.5:
+        prof_text = "Profane text!"
+
     return jsonify({
         "spam_text": f"{spam_text}",
         "prof_text": f"{prof_text}",
