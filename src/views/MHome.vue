@@ -47,21 +47,8 @@
                         <ul class="nav nav-pills mx-auto" id="reglogFormTab" role="tablist">
                             <li class="nav-item" role="presentation">
                                 <button
-                                    id="register-tab"
-                                    class="nav-link active"
-                                    data-bs-toggle="tab"
-                                    data-bs-target="#registerTabPane"
-                                    role="tab"
-                                    aria-controls="register"
-                                    aria-selected="true"
-                                >
-                                    Register
-                                </button>
-                            </li>
-                            <li class="nav-item" role="presentation">
-                                <button
                                     id="login-tab"
-                                    class="nav-link"
+                                    class="nav-link active"
                                     role="tab"
                                     data-bs-toggle="tab"
                                     data-bs-target="#loginTabPane"
@@ -71,6 +58,19 @@
                                     Login
                                 </button>
                             </li>
+                            <li class="nav-item" role="presentation">
+                                <button
+                                    id="register-tab"
+                                    class="nav-link"
+                                    data-bs-toggle="tab"
+                                    data-bs-target="#registerTabPane"
+                                    role="tab"
+                                    aria-controls="register"
+                                    aria-selected="true"
+                                >
+                                    Register
+                                </button>
+                            </li>
                         </ul>
                     </div>
 
@@ -78,14 +78,19 @@
                         <div class="tab-content" id="reglogFormTabContent">
                             <div
                                 class="tab-pane fade show active"
+                                id="loginTabPane"
+                                role="tabpanel"
+                                aria-labelledby="login-tab"
+                            >
+                                <MLoginForm />
+                            </div>
+                            <div
+                                class="tab-pane fade"
                                 id="registerTabPane"
                                 role="tabpanel"
                                 aria-labelledby="register-tab"
                             >
                                 <MRegisterForm />
-                            </div>
-                            <div class="tab-pane fade" id="loginTabPane" role="tabpanel" aria-labelledby="login-tab">
-                                <MLoginForm />
                             </div>
                         </div>
                     </div>

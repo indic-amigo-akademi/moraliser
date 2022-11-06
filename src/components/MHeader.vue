@@ -38,6 +38,7 @@
 <script>
 import logo from "@/assets/logo.png";
 import { mapActions, mapState } from "vuex";
+import { postData } from "@/utils/fetchUtils";
 
 export default {
     name: "m-header",
@@ -52,27 +53,10 @@ export default {
     methods: {
         ...mapActions(["openLoginModal"]),
         logoutUser() {
-            const url = `http://${location.hostname}:${location.port}/api/logout`;
-            const data = new FormData();
-            data.append("csrf_token", document.querySelector("meta[name='csrf_token']").getAttribute("content"));
-
-            fetch(url, {
-                method: "POST",
-                body: data
-            })
-                .then((res) => {
-                    if (res.status !== 200) {
-                        throw Error(res.statusText);
-                    }
-                    return res.json();
-                })
-                .then((res) => {
-                    console.log(res.message);
-                    window.location.reload();
-                })
-                .catch((err) => {
-                    console.error(err);
-                });
+            postData("/api/logout", {}, (res) => {
+                // console.log(res.message);
+                window.location.reload();
+            });
         }
     }
 };

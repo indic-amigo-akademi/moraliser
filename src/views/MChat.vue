@@ -28,14 +28,13 @@
 import MChatbox from "@/components/MChatBox.vue";
 import MdSend from "vue-material-design-icons/Send.vue";
 import NotifyTune from "@/assets/notify.mp3";
+import { postData } from "@/utils/fetchUtils";
 
 export default {
     name: "m-chat",
     data() {
         return {
-            chats: [
-
-            ],
+            chats: [],
             message: ""
         };
     },
@@ -62,36 +61,34 @@ export default {
                     userid: 12
                 }
             };
-            const data = new FormData();
-            data.append("message", this.message);
-            newChat.msg = this.message;
-            this.message = "";
-            newChat.date = new Date().toISOString();
-            newChat.isCurrentUser = true;
-            this.chats.push(newChat);
-            const res = await fetch(`http://${location.hostname}:${location.port}/api/text-validate`, {
-                method: "POST",
-                body: data
-            });
-            if (res.status !== 200) {
-                console.error(res.status + " " + res.statusText);
-                return;
-            }
-            const jsonData = await res.json();
-            if (jsonData.status === "success") {
-                newChat = {
-                    sender: {
-                        name: "damarin",
-                        userid: 1
+
+            postData(
+                "/api/text-validate",
+                {
+                    message: this.message
+                },
+                (res) => {
+                    newChat.msg = this.message;
+                    this.message = "";
+                    newChat.date = new Date().toISOString();
+                    newChat.isCurrentUser = true;
+                    this.chats.push(newChat);
+                    if (res.status === "success") {
+                        newChat = {
+                            sender: {
+                                name: "damarin",
+                                userid: 1
+                            }
+                        };
+                        newChat.msg = `${res.spam_text} ${res.prof_text}`;
+                        this.message = "";
+                        newChat.date = new Date().toISOString();
+                        newChat.isCurrentUser = false;
+                        this.chats.push(newChat);
+                        audio.play();
                     }
-                };
-                newChat.msg = `${jsonData.spam_text} ${jsonData.prof_text}`;
-                this.message = "";
-                newChat.date = new Date().toISOString();
-                newChat.isCurrentUser = false;
-                this.chats.push(newChat);
-                audio.play();
-            }
+                }
+            );
         }
     }
 };

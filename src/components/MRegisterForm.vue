@@ -76,8 +76,9 @@
     </form>
 </template>
 
-<script>
+<script lang="js">
 import { mapActions } from "vuex";
+import { postData } from "@/utils/fetchUtils";
 
 export default {
     name: "m-register-form",
@@ -105,37 +106,21 @@ export default {
                 return;
             }
 
-            const data = new FormData();
-
-            data.append("csrf_token", document.querySelector("meta[name='csrf_token']").getAttribute("content"));
-            data.append("email", this.email);
-            data.append("phone", this.phone);
-            data.append("username", this.username);
-            data.append("password", this.password);
-
-            fetch(`http://${location.hostname}:${location.port}/api/register`, {
-                method: "POST",
-                body: data
-            })
-                .then((res) => {
-                    if (res.status !== 200) {
-                        throw Error(res.statusText);
-                    }
-                    return res.json();
-                })
-                .then((res) => {
-                    Object.keys(this.errors).forEach((err) => (this.errors[err] = ""));
-                    if (res.success) {
-                        this.closeLoginModal();
-                        window.location.reload();
-                    } else {
-                        Object.keys(res.errors).forEach((err) => (this.errors[err] = res.errors[err].join(" ")));
-                    }
-                    // console.log(res.message);
-                })
-                .catch((err) => {
-                    console.error(err);
-                });
+            postData("/api/login", {
+                email: this.email,
+                phone: this.phone,
+                username: this.username,
+                password: this.password
+            }, (res) => {
+                Object.keys(this.errors).forEach((err) => (this.errors[err] = ""));
+                if (res.success) {
+                    this.closeLoginModal();
+                    window.location.reload();
+                } else {
+                    Object.keys(res.errors).forEach((err) => (this.errors[err] = res.errors[err].join(" ")));
+                }
+                // console.log(res.message);
+            });
         },
         ...mapActions(["closeLoginModal"])
     }
