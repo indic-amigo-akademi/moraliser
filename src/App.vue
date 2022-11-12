@@ -33,6 +33,7 @@ footer {
 
 <script>
 import MHeader from "@/components/MHeader";
+import { postData } from "@/utils/fetchUtils";
 import store from "@/store";
 
 export default {
@@ -41,28 +42,10 @@ export default {
         MHeader
     },
     mounted() {
-        const data = new FormData();
-        const csrfToken = document.querySelector("meta[name='csrf_token']").getAttribute("content");
-
-        data.append("csrf_token", csrfToken);
-
-        fetch(`http://${location.hostname}:${location.port}/api/current`, {
-            method: "POST",
-            body: data
-        })
-            .then((res) => {
-                if (res.status !== 200) {
-                    throw Error(res.statusText);
-                }
-                return res.json();
-            })
-            .then((res) => {
-                console.log(res);
-                store.commit("setAuthUser", { user: res.user });
-            })
-            .catch((err) => {
-                console.error(err);
-            });
+        postData("/api/current", {}, (res) => {
+            // console.log(res);
+            store.commit("setAuthUser", { user: res.user });
+        });
     }
 };
 </script>

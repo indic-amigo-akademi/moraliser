@@ -1,5 +1,14 @@
 import { createStore } from "vuex";
 
+interface AppStoreState {
+    isLoginModalOpen: boolean;
+    auth: null | User;
+}
+interface AppStoreAction {
+    isOpen: boolean;
+    user: null | User;
+}
+
 export default createStore({
     state() {
         return {
@@ -8,10 +17,10 @@ export default createStore({
         };
     },
     mutations: {
-        toggleLoginModal(state, { isOpen }) {
+        toggleLoginModal(state: AppStoreState, { isOpen }: AppStoreAction) {
             state.isLoginModalOpen = isOpen;
         },
-        setAuthUser(state, { user }) {
+        setAuthUser(state: AppStoreState, { user }: AppStoreAction) {
             state.auth = user;
         }
     },

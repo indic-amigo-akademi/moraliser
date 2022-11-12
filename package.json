@@ -1,25 +1,42 @@
 {
     "name": "moraliser",
     "version": "0.2.0",
-    "description": "A simple chat software with adult and slang filter",
-    "repository": {
-        "type": "git",
-        "url": "git+https://github.com/indic-amigo-akademi/moraliser.git"
-    },
-    "keywords": [],
-    "author": "",
-    "license": "ISC",
-    "bugs": {
-        "url": "https://github.com/indic-amigo-akademi/moraliser/issues"
-    },
-    "homepage": "https://github.com/indic-amigo-akademi/moraliser#readme",
     "private": true,
+    "description": "A simple chat software with adult and slang filter",
+    "author": "",
     "scripts": {
         "serve": "vue-cli-service serve --open",
         "build": "vue-cli-service build",
-        "watch": "vue-cli-service build --watch",
         "lint": "vue-cli-service lint",
-        "postinstall": "npm build"
+        "postinstall": "npm run build",
+        "watch": "vue-cli-service build --watch"
+    },
+    "dependencies": {
+        "vue-class-component": "^8.0.0-0"
+    },
+    "devDependencies": {
+        "@typescript-eslint/eslint-plugin": "^5.4.0",
+        "@typescript-eslint/parser": "^5.4.0",
+        "@vue/cli-plugin-babel": "^5.0.8",
+        "@vue/cli-plugin-eslint": "^5.0.8",
+        "@vue/cli-plugin-typescript": "~5.0.0",
+        "@vue/cli-service": "^5.0.8",
+        "@vue/eslint-config-standard": "^8.0.1",
+        "@vue/eslint-config-typescript": "^9.1.0",
+        "babel-eslint": "^10.1.0",
+        "bootstrap": "^5.2.2",
+        "bootstrap-vue-3": "^0.4.6",
+        "eslint-plugin-vue": "^9.6.0",
+        "lint-staged": "^13.0.3",
+        "moment": "^2.29.4",
+        "sass": "^1.55.0",
+        "sass-loader": "^13.1.0",
+        "typescript": "~4.5.5",
+        "vue": "^3.2.41",
+        "vue-material-design-icons": "^5.1.2",
+        "vue-router": "^4.1.5",
+        "vue-template-compiler": "^2.7.13",
+        "vuex": "^4.1.0"
     },
     "babel": {
         "presets": [
@@ -30,7 +47,8 @@
         "root": true,
         "extends": [
             "plugin:vue/essential",
-            "@vue/standard"
+            "@vue/standard",
+            "@vue/typescript"
         ],
         "rules": {
             "indent": [
@@ -50,6 +68,9 @@
                 "double"
             ],
             "vue/no-unused-components": "warn"
+        },
+        "parserOptions": {
+            "parser": "@typescript-eslint/parser"
         }
     },
     "postcss": {
@@ -62,9 +83,15 @@
         "last 2 versions",
         "not ie <= 8"
     ],
+    "bugs": {
+        "url": "https://github.com/indic-amigo-akademi/moraliser/issues"
+    },
     "gitHooks": {
         "pre-commit": "lint-staged"
     },
+    "homepage": "https://github.com/indic-amigo-akademi/moraliser#readme",
+    "keywords": [],
+    "license": "ISC",
     "lint-staged": {
         "*.js": [
             "vue-cli-service lint",
@@ -75,22 +102,8 @@
             "git add"
         ]
     },
-    "devDependencies": {
-        "@vue/cli-plugin-babel": "^5.0.8",
-        "@vue/cli-plugin-eslint": "^5.0.8",
-        "@vue/cli-service": "^5.0.8",
-        "@vue/eslint-config-standard": "^8.0.1",
-        "babel-eslint": "^10.1.0",
-        "bootstrap": "^5.2.2",
-        "eslint-plugin-vue": "^9.6.0",
-        "lint-staged": "^13.0.3",
-        "moment": "^2.29.4",
-        "sass": "^1.55.0",
-        "sass-loader": "^13.1.0",
-        "vue": "^3.2.41",
-        "vue-material-design-icons": "^5.1.2",
-        "vue-router": "^4.1.5",
-        "vue-template-compiler": "^2.7.13",
-        "vuex": "^4.1.0"
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/indic-amigo-akademi/moraliser.git"
     }
 }

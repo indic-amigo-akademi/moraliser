@@ -31,8 +31,9 @@
     </form>
 </template>
 
-<script>
+<script lang="js">
 import { mapActions } from "vuex";
+import { postData } from "@/utils/fetchUtils";
 
 export default {
     name: "m-login-form",
@@ -50,35 +51,16 @@ export default {
     },
     methods: {
         loginSubmit() {
-            const url = `http://${location.hostname}:${location.port}/api/login`;
-            const data = new FormData();
-            data.append("csrf_token", document.querySelector("meta[name='csrf_token']").getAttribute("content"));
-            data.append("username", this.username);
-            data.append("password", this.password);
-
-            fetch(url, {
-                method: "POST",
-                body: data
-            })
-                .then((res) => {
-                    if (res.status !== 200) {
-                        throw Error(res.statusText);
-                    }
-                    return res.json();
-                })
-                .then((res) => {
-                    Object.keys(this.errors).forEach((err) => (this.errors[err] = ""));
-                    if (res.success) {
-                        this.closeLoginModal();
-                        window.location.reload();
-                    } else {
-                        Object.keys(res.errors).forEach((err) => (this.errors[err] = res.errors[err].join(" ")));
-                    }
-                    // console.log(res.message);
-                })
-                .catch((err) => {
-                    console.error(err);
-                });
+            postData("/api/login", { username: this.username, password: this.password }, (res) => {
+                Object.keys(this.errors).forEach((err) => (this.errors[err] = ""));
+                // console.log(res);
+                if (res.success) {
+                    this.closeLoginModal();
+                    window.location.reload();
+                } else {
+                    Object.keys(res.errors).forEach((err) => (this.errors[err] = res.errors[err].join(" ")));
+                }
+            });
         },
         ...mapActions(["closeLoginModal"])
     }
