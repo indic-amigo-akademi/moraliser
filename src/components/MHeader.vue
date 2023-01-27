@@ -26,15 +26,15 @@
                 Home
               </router-link>
             </li>
-            <li class="nav-item" v-if="isLoggedIn">
-              <a class="nav-link" href="#" @click.prevent="logoutUser"
-                >Logout</a
-              >
+            <li class="nav-item" v-if="isGuest">
+              <a class="nav-link" href="#" @click.prevent="openLoginModal">
+                Login/Register
+              </a>
             </li>
             <li class="nav-item" v-else>
-              <a class="nav-link" href="#" @click.prevent="openLoginModal"
-                >Login/Register</a
-              >
+              <a class="nav-link" href="#" @click.prevent="logoutUser">
+                Logout
+              </a>
             </li>
           </ul>
         </div>
@@ -45,31 +45,32 @@
 
 <script lang="ts">
 import logo from "@/assets/logo.png";
-import { mapActions, mapState } from "pinia";
-import { useAppStore } from "@/store";
+import { mapActions, mapGetters } from "vuex";
 import { postData } from "@/utils/fetchUtils";
 import type { FetchResponseJSON } from "@/types/Models";
 
 export default {
   name: "m-header",
-  data() {
+  setup() {
     return {
       logo,
     };
   },
   computed: {
-    ...mapState(useAppStore, { isLoggedIn: (state) => !!state.auth }),
+    ...mapGetters(["isGuest"]),
   },
   methods: {
-    ...mapActions(useAppStore, ["openLoginModal"]),
+    ...mapActions(["openLoginModal"]),
     logoutUser() {
+      console.log("Open Logout User Modal");
+
       type FetchReqType = { [key: string]: null };
       postData<FetchReqType>(
         "/api/logout",
         {},
         (res: FetchResponseJSON<FetchReqType>) => {
-          console.log(res.message);
-          window.location.reload();
+          if (res.success) window.location.reload();
+          else console.log(res.message);
         }
       );
     },

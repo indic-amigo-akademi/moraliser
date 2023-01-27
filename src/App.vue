@@ -34,8 +34,7 @@ footer {
 <script lang="ts">
 import MHeader from "@/components/MHeader.vue";
 import { postData } from "@/utils/fetchUtils";
-import { useAppStore } from "@/store";
-import { mapActions } from "pinia";
+import { mapActions } from "vuex";
 import type { UserInfo, FetchResponseJSON } from "@/types/Models";
 
 export default {
@@ -44,13 +43,14 @@ export default {
     MHeader,
   },
   methods: {
-    ...mapActions(useAppStore, ["setAuthUser"]),
+    ...mapActions(["setAuthUser"]),
   },
   mounted() {
-    postData<{ [key: string]: UserInfo | null }>(
+    type FetchReqType = { [key: string]: UserInfo | null };
+    postData<FetchReqType>(
       "/api/current",
       null,
-      (res: FetchResponseJSON<{ [key: string]: UserInfo | null }>) => {
+      (res: FetchResponseJSON<FetchReqType>) => {
         // console.log(res);
         this.setAuthUser(res.data.user as UserInfo | null);
       }

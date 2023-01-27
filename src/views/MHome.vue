@@ -86,7 +86,7 @@
                 role="tabpanel"
                 aria-labelledby="login-tab"
               >
-                <MLoginForm />
+                <m-login-form />
               </div>
               <div
                 class="tab-pane fade"
@@ -94,7 +94,7 @@
                 role="tabpanel"
                 aria-labelledby="register-tab"
               >
-                <MRegisterForm />
+                <m-register-form />
               </div>
             </div>
           </div>
@@ -108,8 +108,7 @@
 import MHelloWorld from "@/components/MHelloWorld.vue";
 import MLoginForm from "@/components/MLoginForm.vue";
 import MRegisterForm from "@/components/MRegisterForm.vue";
-import { useAppStore } from "@/store";
-import { mapActions, mapState } from "pinia";
+import { mapActions, mapState } from "vuex";
 
 export default {
   name: "m-home",
@@ -119,10 +118,10 @@ export default {
     MRegisterForm,
   },
   computed: {
-    ...mapState(useAppStore, ["isLoginModalOpen"]),
+    ...mapState(["isLoginModalOpen"]),
   },
   methods: {
-    ...mapActions(useAppStore, ["closeLoginModal"]),
+    ...mapActions(["closeLoginModal"]),
   },
 };
 </script>

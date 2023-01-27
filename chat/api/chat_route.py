@@ -5,6 +5,7 @@ import re
 
 
 class TextSpamClassifier():
+
     def __init__(self) -> None:
         with open('notebooks/spam_filter/model_spam.pickle', 'rb') as handle:
             self.model = pickle.load(handle)
@@ -28,6 +29,7 @@ class TextSpamClassifier():
 
 
 class TextProfanityClassifier():
+
     def __init__(self) -> None:
         with open('notebooks/profanity_filter/model_profanity.pickle',
                   'rb') as handle:
@@ -74,7 +76,10 @@ def text_chat_validate():
         prof_text = "Profane text!"
 
     return jsonify({
-        "spam_text": f"{spam_text}",
-        "prof_text": f"{prof_text}",
-        "status": "success"
+        "success": True,
+        "message": "Chat validation done!",
+        "data": {
+            "spam_text": f"{spam_text}",
+            "prof_text": f"{prof_text}",
+        },
     })

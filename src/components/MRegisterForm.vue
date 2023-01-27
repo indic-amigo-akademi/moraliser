@@ -90,9 +90,8 @@
 </template>
 
 <script lang="ts">
-import { mapActions } from "pinia";
+import { mapActions } from "vuex";
 // import { postData } from "@/utils/fetchUtils";
-import { useAppStore } from "@/store";
 
 export default {
   name: "m-register-form",
@@ -141,7 +140,7 @@ export default {
       //     }
       //   );
     },
-    ...mapActions(useAppStore, ["closeLoginModal"]),
+    ...mapActions(["closeLoginModal"]),
   },
 };
 </script>

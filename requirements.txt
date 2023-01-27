@@ -22,3 +22,8 @@ Flask-WTF==1.0
 # pytest==3.0.5
 # pytest-cov==2.4.0
 email_validator
+
+# Datascience Frameworks
+numpy
+pandas
+scikit-learn

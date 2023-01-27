@@ -36,9 +36,8 @@
 </template>
 
 <script lang="ts">
-import { mapActions } from "pinia";
+import { mapActions } from "vuex";
 // import { postData } from "@/utils/fetchUtils";
-import { useAppStore } from "@/store";
 // import type { FetchResponseJSON, ErrorType } from "@/types/Models";
 
 // interface MLoginFormState {
@@ -89,7 +88,7 @@ export default {
       // }
       //   )
     },
-    ...mapActions(useAppStore, ["closeLoginModal"]),
+    ...mapActions(["closeLoginModal"]),
   },
 };
 </script>
