@@ -1,35 +1,19 @@
-import { createStore } from "vuex";
+import { defineStore } from "pinia";
+import type { UserInfo } from "./types/Models";
 
-interface AppStoreState {
-    isLoginModalOpen: boolean;
-    auth: null | User;
-}
-interface AppStoreAction {
-    isOpen: boolean;
-    user: null | User;
-}
-
-export default createStore({
-    state() {
-        return {
-            isLoginModalOpen: false,
-            auth: null
-        };
+export const useAppStore = defineStore("app", {
+  state: () => {
+    return { isLoginModalOpen: false, auth: null as UserInfo | null };
+  },
+  actions: {
+    closeLoginModal() {
+      this.isLoginModalOpen = false;
     },
-    mutations: {
-        toggleLoginModal(state: AppStoreState, { isOpen }: AppStoreAction) {
-            state.isLoginModalOpen = isOpen;
-        },
-        setAuthUser(state: AppStoreState, { user }: AppStoreAction) {
-            state.auth = user;
-        }
+    openLoginModal() {
+      this.isLoginModalOpen = true;
     },
-    actions: {
-        closeLoginModal({ commit }) {
-            commit("toggleLoginModal", { isOpen: false });
-        },
-        openLoginModal({ commit }) {
-            commit("toggleLoginModal", { isOpen: true });
-        }
-    }
+    setAuthUser(user: UserInfo | null) {
+      this.auth = user;
+    },
+  },
 });

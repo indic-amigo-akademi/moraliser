@@ -10,7 +10,13 @@ def get_current_user():
     user = None
     if current_user.is_active:
         user = current_user.serialize
-    return jsonify({"user": user, "success": True})
+    return jsonify({
+        "success": True,
+        "message": "Current user found!",
+        "data": {
+            "user": user
+        }
+    })
 
 
 @api_bp.route('/login', methods=['POST'])
@@ -27,34 +33,41 @@ def user_login():
                 login_user(attempted_user)
 
                 return jsonify({
+                    "success": True,
                     "message": "Logged in successfully!",
-                    "success": True
+                    "data": None
                 })
             else:
                 return jsonify({
+                    "success": False,
                     "message": "Error during logging!",
-                    "errors": {
-                        "all": [
-                            "Username and password are not match! Please try again."
-                        ]
-                    },
-                    "success": False
+                    "data": {
+                        "errors": {
+                            "all": [
+                                "Username and password are not match! Please try again."
+                            ]
+                        }
+                    }
                 })
         if form.errors != {}:
             return jsonify({
+                "success": False,
                 "message": "Error during registration!",
-                "errors": form.errors,
-                "success": False
+                "data": {
+                    "errors": form.errors,
+                }
             })
 
     except Exception as e:
         current_app.logger.error('>>> Error {}'.format(e))
         return jsonify({
+            "success": False,
             "message": "Error during logging!",
-            "errors": {
-                "all": [str(e)]
-            },
-            "success": False
+            "data": {
+                "errors": {
+                    "all": [str(e)]
+                }
+            }
         })
 
 
@@ -76,29 +89,38 @@ def user_register():
             db.session.commit()
             login_user(newUser)
             return jsonify({
+                "success": True,
                 "message": "Registered successfully!",
-                "success": True
+                "data": None
             })
 
         if form.errors != {}:
             return jsonify({
+                "success": False,
                 "message": "Error during registration!",
-                "errors": form.errors,
-                "success": False
+                "data": {
+                    "errors": form.errors,
+                }
             })
 
     except Exception as e:
         current_app.logger.error('>>> Error {}'.format(e))
         return jsonify({
+            "success": False,
             "message": "Error during registration!",
-            "errors": {
-                "all": [str(e)]
-            },
-            "success": False
+            "data": {
+                "errors": {
+                    "all": [str(e)]
+                }
+            }
         })
 
 
 @api_bp.route('/logout', methods=['POST'])
 def user_logout():
     logout_user()
-    return jsonify({"message": "Logged out successfully!", "success": True})
+    return jsonify({
+        "success": True,
+        "message": "Logged out successfully!",
+        "data": None
+    })
