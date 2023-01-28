@@ -91,7 +91,7 @@
 
 <script lang="ts">
 import { mapActions } from "vuex";
-// import { postData } from "@/utils/fetchUtils";
+import { postData, type FetchResponseJSON } from "@/utils/fetchUtils";
 
 export default {
   name: "m-register-form",
@@ -118,27 +118,32 @@ export default {
         return;
       }
 
-      //   postData(
-      //     "/api/login",
-      //     {
-      //       email: this.email,
-      //       phone: this.phone,
-      //       username: this.username,
-      //       password: this.password,
-      //     },
-      //     (res: Response) => {
-      //       Object.keys(this.errors).forEach((err) => (this.errors[err] = ""));
-      //       if (res.success) {
-      //         this.closeLoginModal();
-      //         window.location.reload();
-      //       } else {
-      //         Object.keys(res.errors).forEach(
-      //           (err) => (this.errors[err] = res.errors[err].join(" "))
-      //         );
-      //       }
-      //       // console.log(res.message);
-      //     }
-      //   );
+      type FetchReqType = { [key: string]: { [key: string]: string[] } };
+      postData<FetchReqType>(
+        "/api/register",
+        {
+          email: this.email,
+          phone: this.phone,
+          username: this.username,
+          password: this.password,
+        },
+        (res: FetchResponseJSON<FetchReqType>) => {
+          (Object.keys(this.errors) as (keyof typeof this.errors)[]).forEach(
+            (key) => (this.errors[key] = "")
+          );
+          if (res.success) {
+            this.closeLoginModal();
+            window.location.reload();
+          } else {
+            console.log(res.message);
+            (
+              Object.keys(res.data.errors) as (keyof typeof this.errors)[]
+            ).forEach(
+              (key) => (this.errors[key] = res.data.errors[key].join(" "))
+            );
+          }
+        }
+      );
     },
     ...mapActions(["closeLoginModal"]),
   },

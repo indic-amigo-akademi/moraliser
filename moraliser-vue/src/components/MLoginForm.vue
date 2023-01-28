@@ -37,8 +37,7 @@
 
 <script lang="ts">
 import { mapActions } from "vuex";
-// import { postData } from "@/utils/fetchUtils";
-// import type { FetchResponseJSON, ErrorType } from "@/types/Models";
+import { postData, type FetchResponseJSON } from "@/utils/fetchUtils";
 
 // interface MLoginFormState {
 //   username: string;
@@ -63,30 +62,27 @@ export default {
   },
   methods: {
     loginSubmit() {
-      // postData(
-      //     "/api/login",
-      //     { username: this.username, password: this.password },
-      //     (
-      //         res: FetchResponseJSON<{
-      //             [key: string]: {
-      //                 [key: string]: { [key: string]: Array<string> } | string
-      //             } | null
-      //         }>
-      //     ) => {
-      //         Object.keys(this.errors).forEach(
-      //             (err: keyof this.errors) => (this.errors[err] = "")
-      //             )
-      // console.log(res);
-      // if (res.success) {
-      //     this.closeLoginModal()
-      //     window.location.reload()
-      // } else {
-      //     Object.keys(res.data.errors).forEach(
-      //         (err) => (this.errors[err] = res.data.errors[err].join(" "))
-      //     )
-      // }
-      // }
-      //   )
+      type FetchReqType = { [key: string]: { [key: string]: string[] } };
+      postData<FetchReqType>(
+        "/api/login",
+        { username: this.username, password: this.password },
+        (res: FetchResponseJSON<FetchReqType>) => {
+          (Object.keys(this.errors) as (keyof typeof this.errors)[]).forEach(
+            (key) => (this.errors[key] = "")
+          );
+          if (res.success) {
+            this.closeLoginModal();
+            window.location.reload();
+          } else {
+            console.log(res);
+            (
+              Object.keys(res.data.errors) as (keyof typeof this.errors)[]
+            ).forEach(
+              (key) => (this.errors[key] = res.data.errors[key].join(" "))
+            );
+          }
+        }
+      );
     },
     ...mapActions(["closeLoginModal"]),
   },

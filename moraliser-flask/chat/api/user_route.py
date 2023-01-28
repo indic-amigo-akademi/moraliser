@@ -3,18 +3,23 @@ from chat.api import api_bp
 from chat.forms import LoginForm, RegisterForm
 from chat.models import db, User
 from flask_login import login_user, logout_user, current_user
+from flask_wtf.csrf import generate_csrf
 
-
-@api_bp.route('/current', methods=['POST'])
+@api_bp.route('/current', methods=['GET'])
 def get_current_user():
     user = None
+    message = "No current user found!"
+    success = True
     if current_user.is_active:
         user = current_user.serialize
+        message = "Current user found!"
+                
     return jsonify({
-        "success": True,
-        "message": "Current user found!",
+        "success": success,
+        "message": message,
         "data": {
-            "user": user
+            "user": user,
+            "csrf_token": generate_csrf()
         }
     })
 
@@ -52,7 +57,7 @@ def user_login():
         if form.errors != {}:
             return jsonify({
                 "success": False,
-                "message": "Error during registration!",
+                "message": "Error during logging!",
                 "data": {
                     "errors": form.errors,
                 }

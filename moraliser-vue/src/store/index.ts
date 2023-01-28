@@ -1,28 +1,32 @@
 import { createStore } from "vuex";
-import type { UserInfo } from "./types/Models";
+import type { UserInfo } from "../types/Models";
 
-interface AppStoreState {
+export interface AppStoreState {
   isLoginModalOpen: boolean;
-  auth: null | UserInfo;
+  auth: UserInfo | null;
+  csrf_token: string | null;
 }
-interface AppStoreAction {
+export interface AppStoreAction {
   isOpen: boolean;
-  user: null | UserInfo;
+  user: UserInfo | null;
+  csrf_token: string | null;
 }
 
 export default createStore({
   state: () => {
     return {
-      isLoginModalOpen: false as boolean,
-      auth: null as UserInfo | null,
+      isLoginModalOpen: false,
+      auth: null,
+      csrf_token: null,
     };
   },
   mutations: {
     toggleLoginModal(state: AppStoreState, { isOpen }: AppStoreAction) {
       state.isLoginModalOpen = isOpen;
     },
-    setAuthUser(state: AppStoreState, { user }: AppStoreAction) {
+    setAuthUser(state: AppStoreState, { user, csrf_token }: AppStoreAction) {
       state.auth = user;
+      state.csrf_token = csrf_token;
     },
   },
   actions: {
@@ -34,8 +38,8 @@ export default createStore({
     },
   },
   getters: {
-    isGuest(state): boolean {
-      return state.auth == null;
+    isGuest: (state: AppStoreState) => {
+      return !state.auth;
     },
   },
 });

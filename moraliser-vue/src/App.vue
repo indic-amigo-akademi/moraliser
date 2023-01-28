@@ -33,9 +33,9 @@ footer {
 
 <script lang="ts">
 import MHeader from "@/components/MHeader.vue";
-import { postData } from "@/utils/fetchUtils";
-import { mapActions } from "vuex";
-import type { UserInfo, FetchResponseJSON } from "@/types/Models";
+import { getData, type FetchResponseJSON } from "@/utils/fetchUtils";
+import { mapMutations } from "vuex";
+import type { UserInfo } from "@/types/Models";
 
 export default {
   name: "m-app",
@@ -43,16 +43,21 @@ export default {
     MHeader,
   },
   methods: {
-    ...mapActions(["setAuthUser"]),
+    ...mapMutations(["setAuthUser"]),
   },
   mounted() {
-    type FetchReqType = { [key: string]: UserInfo | null };
-    postData<FetchReqType>(
+    type FetchReqType = { [key: string]: UserInfo | string | null };
+    getData<FetchReqType>(
       "/api/current",
       null,
       (res: FetchResponseJSON<FetchReqType>) => {
-        // console.log(res);
-        this.setAuthUser(res.data.user as UserInfo | null);
+        console.log(res);
+        if (res.success)
+          this.setAuthUser({
+            user: res.data.user as UserInfo | null,
+            csrf_token: res.data.csrf_token,
+          });
+        else console.log(res.message);
       }
     );
   },

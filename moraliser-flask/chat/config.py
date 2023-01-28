@@ -18,12 +18,16 @@ class Config(object):
 
     APP_DIR = os.path.dirname(__file__)
     ROOT_DIR = os.path.dirname(APP_DIR)
-    DIST_DIR = os.path.join(ROOT_DIR, 'dist')
-    STATIC_DIR = os.path.join(DIST_DIR, 'static')
+    # DIST_DIR = os.path.join(ROOT_DIR, 'dist')
+    # STATIC_DIR = os.path.join(DIST_DIR, 'static')
 
     SQLALCHEMY_DATABASE_URI = os.getenv('SQLALCHEMY_DATABASE_URI')
     SQLALCHEMY_TRACK_MODIFICATIONS = os.getenv(
         'SQLALCHEMY_TRACK_MODIFICATIONS')
 
-    if not os.path.exists(DIST_DIR):
-        raise Exception('DIST_DIR not found: {}'.format(DIST_DIR))
+    CORS_ORIGIN_WHITELIST = [
+        "http://127.0.0.1:5454"
+    ]
+
+    # if not os.path.exists(DIST_DIR):
+    #     raise Exception('DIST_DIR not found: {}'.format(DIST_DIR))

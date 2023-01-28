@@ -45,9 +45,8 @@
 
 <script lang="ts">
 import logo from "@/assets/logo.png";
-import { mapActions, mapGetters } from "vuex";
-import { postData } from "@/utils/fetchUtils";
-import type { FetchResponseJSON } from "@/types/Models";
+import { mapActions, mapGetters, mapState } from "vuex";
+import { postData, type FetchResponseJSON } from "@/utils/fetchUtils";
 
 export default {
   name: "m-header",
@@ -56,8 +55,10 @@ export default {
       logo,
     };
   },
+  mounted() {},
   computed: {
     ...mapGetters(["isGuest"]),
+    ...mapState(["auth"]),
   },
   methods: {
     ...mapActions(["openLoginModal"]),
