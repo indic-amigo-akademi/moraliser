@@ -13,6 +13,9 @@ export interface FetchResponseJSON<T> {
   data: T;
 }
 
+export const userAgent =
+  "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/89.0.4389.82 Safari/537.36";
+
 export function toHeaders(headersJson: { [key: string]: string | null }) {
   const headers = new Headers();
   (Object.keys(headersJson) as (keyof typeof headersJson)[]).forEach((key) =>
@@ -26,21 +29,33 @@ export function getUrl(route: string) {
   return locationURL[environ].concat(route);
 }
 
-export function fetchData<T>(
+async function getCSRFToken() {
+  const URL = getUrl("/api/get_csrf_token");
+  const res = await fetch(URL);
+  const resJson = await res.json();
+  if (resJson.success) {
+    return resJson.data.csrf_token;
+  }
+  return null;
+}
+
+export async function fetchData<T>(
   route: string,
   data: { [key: string]: string } | null,
   method: FetchMethodType,
   callback: Function
 ) {
-  const csrfToken: string | null = store.state.csrf_token;
-  const headers = {};
-  //   const headers = {
-  //     "X-CSRF-TOKEN": csrfToken,
-  //   };
-
   //   const URL = window.location.origin.concat(route);
   const URL = getUrl(route);
   if (method === "POST") {
+    //   const csrfToken: string | null = store.state.csrf_token;
+    const csrfToken: string | null = await getCSRFToken();
+    //   const headers = {};
+    const headers = {
+      //   "X-CSRF-TOKEN": csrfToken,
+      "User-Agent": userAgent,
+    };
+
     const formData = new FormData();
     formData.append("csrf_token", csrfToken as string);
     if (data) for (const i in data) formData.append(i, data[i] || "");

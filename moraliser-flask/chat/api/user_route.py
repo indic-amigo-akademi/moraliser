@@ -1,4 +1,5 @@
-from flask import request, jsonify, current_app
+from flask import request, jsonify, current_app, session
+from flask_cors import cross_origin
 from chat.api import api_bp
 from chat.forms import LoginForm, RegisterForm
 from chat.models import db, User
@@ -19,38 +20,46 @@ def get_current_user():
         {
             "success": success,
             "message": message,
-            "data": {"user": user, "csrf_token": generate_csrf()},
+            "data": {"user": user, "csrf_token": None},
         }
     )
 
 
-@api_bp.route("/my-csrf", methods=["GET"])
+@api_bp.route("/get_csrf_token", methods=["GET"])
 def get_csrf_token():
+    csrf_token = generate_csrf()
+    
+    # session["csrf_token"] = csrf_token
+    # session.modified = True
+
     return jsonify(
         {
             "success": True,
             "message": "CSRF Token is here!",
-            "data": {"csrf_token": generate_csrf()},
+            "data": {"csrf_token": csrf_token},
         }
     )
 
 
-@api_bp.route("/validate-csrf", methods=["GET"])
-def validate_csrf_token():
-    csrf_token = request.args.get("csrf_token")
-    try:
-        validate_csrf(csrf_token)
-        return jsonify(
-            {"success": True, "message": "CSRF Token is valid", "data": None}
-        )
-    except Exception as e:
-        return jsonify({"success": False, "message": str(e), "data": None})
+# @api_bp.route("/validate-csrf", methods=["GET"])
+# def validate_csrf_token():
+#     csrf_token = request.args.get("csrf_token")
+#     try:
+#         validate_csrf(csrf_token)
+#         return jsonify(
+#             {"success": True, "message": "CSRF Token is valid", "data": None}
+#         )
+#     except Exception as e:
+#         return jsonify({"success": False, "message": str(e), "data": None})
 
 
 @api_bp.route("/login", methods=["POST"])
+# @cross_origin(headers=['content-type'])
 def user_login():
     try:
         form = LoginForm()
+
+        current_app.logger.info(form.csrf_token.data)
 
         if form.validate_on_submit():
             attempted_user = User.query.filter_by(username=form.username.data).first()
@@ -104,6 +113,7 @@ def user_login():
 
 
 @api_bp.route("/register", methods=["POST"])
+# @cross_origin(headers=['content-type'])
 def user_register():
     try:
         form = RegisterForm()
@@ -146,6 +156,7 @@ def user_register():
 
 
 @api_bp.route("/logout", methods=["POST"])
+# @cross_origin(headers=['content-type'])
 def user_logout():
     logout_user()
     return jsonify(

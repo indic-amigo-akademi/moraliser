@@ -4,13 +4,11 @@ import pickle
 import re
 
 
-class TextSpamClassifier():
-
+class TextSpamClassifier:
     def __init__(self) -> None:
-        with open('notebooks/spam_filter/model_spam.pickle', 'rb') as handle:
+        with open("notebooks/spam_filter/model_spam.pickle", "rb") as handle:
             self.model = pickle.load(handle)
-        with open('notebooks/spam_filter/vectorizer_spam.pickle',
-                  'rb') as handle:
+        with open("notebooks/spam_filter/vectorizer_spam.pickle", "rb") as handle:
             self.vectorizer = pickle.load(handle)
 
     def __preprocess_text(self, text):
@@ -18,7 +16,7 @@ class TextSpamClassifier():
         text = re.sub(r"[^a-zA-Z0-9]", " ", text)
         text = text.strip()
         text = text.split()
-        text = ' '.join(list(filter(lambda x: x not in ['', ' '], text)))
+        text = " ".join(list(filter(lambda x: x not in ["", " "], text)))
         return text
 
     def predict_proba(self, X):
@@ -28,14 +26,13 @@ class TextSpamClassifier():
         return prob
 
 
-class TextProfanityClassifier():
-
+class TextProfanityClassifier:
     def __init__(self) -> None:
-        with open('notebooks/profanity_filter/model_profanity.pickle',
-                  'rb') as handle:
+        with open("notebooks/profanity_filter/model_profanity.pickle", "rb") as handle:
             self.model = pickle.load(handle)
-        with open('notebooks/profanity_filter/vectorizer_profanity.pickle',
-                  'rb') as handle:
+        with open(
+            "notebooks/profanity_filter/vectorizer_profanity.pickle", "rb"
+        ) as handle:
             self.vectorizer = pickle.load(handle)
 
     def __preprocess_text(self, text):
@@ -43,7 +40,7 @@ class TextProfanityClassifier():
         text = re.sub(r"[^a-zA-Z0-9]", " ", text)
         text = text.strip()
         text = text.split()
-        text = ' '.join(list(filter(lambda x: x not in ['', ' '], text)))
+        text = " ".join(list(filter(lambda x: x not in ["", " "], text)))
         return text
 
     def predict_proba(self, X):
@@ -53,9 +50,9 @@ class TextProfanityClassifier():
         return prob
 
 
-@api_bp.route('/text-validate', methods=['POST'])
+@api_bp.route("/text-validate", methods=["POST"])
 def text_chat_validate():
-    message = request.form.get('message')
+    message = request.form.get("message")
     tsc = TextSpamClassifier()
     tpc = TextProfanityClassifier()
     spam_text = "Not a spam!"
@@ -75,11 +72,13 @@ def text_chat_validate():
     if prof_prob > 0.5:
         prof_text = "Profane text!"
 
-    return jsonify({
-        "success": True,
-        "message": "Chat validation done!",
-        "data": {
-            "spam_text": f"{spam_text}",
-            "prof_text": f"{prof_text}",
-        },
-    })
+    return jsonify(
+        {
+            "success": True,
+            "message": "Chat validation done!",
+            "data": {
+                "spam_text": f"{spam_text}",
+                "prof_text": f"{prof_text}",
+            },
+        }
+    )

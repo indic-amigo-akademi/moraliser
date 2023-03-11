@@ -51,7 +51,7 @@ export default {
       "/api/current",
       null,
       (res: FetchResponseJSON<FetchReqType>) => {
-        console.log(res);
+        // console.log(res);
         if (res.success)
           this.setAuthUser({
             user: res.data.user as UserInfo | null,

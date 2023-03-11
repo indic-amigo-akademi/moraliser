@@ -1,5 +1,6 @@
 <template>
   <form class="form registerForm" @submit.prevent="registerSubmit">
+    <!-- Email Field -->
     <div class="form-group">
       <label for="rfemaill">Email</label>
       <input
@@ -16,6 +17,8 @@
         errors.email
       }}</small>
     </div>
+
+    <!-- Username Field -->
     <div class="form-group">
       <label for="rfuser">Username</label>
       <input
@@ -32,6 +35,8 @@
         errors.username
       }}</small>
     </div>
+
+    <!-- Phone Field -->
     <div class="form-group">
       <label for="rfphone">Phone</label>
       <input
@@ -48,6 +53,8 @@
         errors.phone
       }}</small>
     </div>
+
+    <!-- Password Field -->
     <div class="form-group">
       <label for="rfpwd">Password</label>
       <input
@@ -64,6 +71,8 @@
         errors.password
       }}</small>
     </div>
+
+    <!-- Repeat Password Field -->
     <div class="form-group">
       <label for="rfpwd">Repeat Password</label>
       <input
@@ -83,6 +92,7 @@
         errors.rpassword
       }}</small>
     </div>
+
     <div class="btn-container text-center p-4">
       <button type="submit" class="btn btn-success">Register</button>
     </div>

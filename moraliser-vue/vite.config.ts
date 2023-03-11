@@ -14,6 +14,7 @@ export default defineConfig({
     },
   },
   build: {
+    outDir: "../moraliser-flask/dist",
     rollupOptions: {
       output: {
         assetFileNames: (assetInfo) => {
