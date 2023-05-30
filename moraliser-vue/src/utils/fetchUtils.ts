@@ -1,4 +1,5 @@
-import store from "@/store";
+import router from "@/router";
+// import store from "@/store";
 
 export type FetchMethodType = "POST" | "GET" | "PUT" | "DELETE";
 
@@ -108,4 +109,9 @@ export function getData<T>(
   callback: Function
 ) {
   fetchData<T>(route, data, "GET", callback);
+}
+
+export function redirectTo(url: string) {
+  //   location.reload();
+  router.push(url);
 }

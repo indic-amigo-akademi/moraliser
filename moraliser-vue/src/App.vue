@@ -33,9 +33,8 @@ footer {
 
 <script lang="ts">
 import MHeader from "@/components/MHeader.vue";
-import { getData, type FetchResponseJSON } from "@/utils/fetchUtils";
 import { mapMutations } from "vuex";
-import type { UserInfo } from "@/types/Models";
+import { updateCurrentUser } from "@/utils/authUtils";
 
 export default {
   name: "m-app",
@@ -46,20 +45,7 @@ export default {
     ...mapMutations(["setAuthUser"]),
   },
   mounted() {
-    type FetchReqType = { [key: string]: UserInfo | string | null };
-    getData<FetchReqType>(
-      "/api/current",
-      null,
-      (res: FetchResponseJSON<FetchReqType>) => {
-        // console.log(res);
-        if (res.success)
-          this.setAuthUser({
-            user: res.data.user as UserInfo | null,
-            csrf_token: res.data.csrf_token,
-          });
-        else console.log(res.message);
-      }
-    );
+    updateCurrentUser();
   },
 };
 </script>

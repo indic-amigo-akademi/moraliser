@@ -32,9 +32,28 @@
               </a>
             </li>
             <li class="nav-item" v-else>
-              <a class="nav-link" href="#" @click.prevent="logoutUser">
-                Logout
+              <a
+                class="nav-link dropdown-toggle"
+                href="#"
+                role="button"
+                data-bs-toggle="dropdown"
+              >
+                {{ auth?.username }}
               </a>
+              <ul class="dropdown-menu">
+                <li>
+                  <a href="#settings" class="dropdown-item"> Settings </a>
+                </li>
+                <li>
+                  <a
+                    href="#logout"
+                    class="dropdown-item"
+                    @click.prevent="logoutUser"
+                  >
+                    Logout
+                  </a>
+                </li>
+              </ul>
             </li>
           </ul>
         </div>
@@ -46,7 +65,7 @@
 <script lang="ts">
 import logo from "@/assets/logo.png";
 import { mapActions, mapGetters, mapState } from "vuex";
-import { postData, type FetchResponseJSON } from "@/utils/fetchUtils";
+import { logoutUser } from "@/utils/authUtils";
 
 export default {
   name: "m-header",
@@ -62,19 +81,7 @@ export default {
   },
   methods: {
     ...mapActions(["openLoginModal"]),
-    logoutUser() {
-      console.log("Open Logout User Modal");
-
-      type FetchReqType = { [key: string]: null };
-      postData<FetchReqType>(
-        "/api/logout",
-        {},
-        (res: FetchResponseJSON<FetchReqType>) => {
-          if (res.success) window.location.reload();
-          else console.log(res.message);
-        }
-      );
-    },
+    logoutUser,
   },
 };
 </script>

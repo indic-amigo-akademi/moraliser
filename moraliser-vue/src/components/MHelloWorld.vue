@@ -16,9 +16,7 @@
         Getting Started
       </a>
       <div class="mt-2">&nbsp;</div>
-      <router-link class="btn btn-secondary" to="/demo-chat">
-        See Demo
-      </router-link>
+      <router-link class="btn btn-secondary" to="/chat"> See Demo </router-link>
     </div>
   </section>
 </template>

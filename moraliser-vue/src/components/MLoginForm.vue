@@ -37,15 +37,12 @@
 
 <script lang="ts">
 import { mapActions } from "vuex";
-import { postData, type FetchResponseJSON } from "@/utils/fetchUtils";
-
-// interface MLoginFormState {
-//   username: string;
-//   password: string;
-// }
-
-// interface MLoginFormProps {
-// }
+import {
+  postData,
+  redirectTo,
+  type FetchResponseJSON,
+} from "@/utils/fetchUtils";
+import { updateCurrentUser } from "@/utils/authUtils";
 
 export default {
   name: "m-login-form",
@@ -72,7 +69,8 @@ export default {
           );
           if (res.success) {
             this.closeLoginModal();
-            window.location.reload();
+            redirectTo("chat");
+            updateCurrentUser();
           } else {
             console.log(res);
             (
