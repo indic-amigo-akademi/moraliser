@@ -3,24 +3,31 @@
   height: calc(100vh - 60px);
   display: block;
 }
+
 .chatbox-input-container {
   padding: 0.75rem 0.5rem;
   height: 6rem;
   width: 100%;
+
   form.message-form {
-    button {
-      display: inline-block;
-      height: 45px;
-      width: 45px;
-      margin-left: 0.5rem;
-    }
-    input.text-msg {
-      display: inline-block;
-      width: calc(100% - 55px);
-      // padding: 1.3rem;
+    .form-group {
+      display: flex;
+      .send-btn {
+        display: inline-block;
+        height: 45px;
+        width: 45px;
+        margin-left: 0.5rem;
+      }
+      .text-msg-input {
+        display: inline-block;
+        width: calc(100% - 55px);
+        resize: none;
+        border-radius: 4rem;
+      }
     }
   }
 }
+
 .chatbox-container {
   padding: 0.5rem;
   overflow-x: hidden;
@@ -38,15 +45,17 @@
     <div class="chatbox-input-container">
       <form class="message-form" @submit.prevent="sendMessage">
         <div class="form-group">
-          <input
-            class="form-control rounded-pill p-2 px-3 text-msg"
-            type="name"
+          <autosize-textarea
+            cols="1"
+            rows="1"
+            class="form-control p-2 px-5 text-msg-input"
             name="message"
             v-model="message"
+            :max-height="200"
             placeholder="Type a message..."
-          />
+          ></autosize-textarea>
           <input class="d-none" type="file" name="image" multiple />
-          <button class="btn btn-primary rounded-circle" type="submit">
+          <button class="btn btn-primary rounded-circle send-btn" type="submit">
             <send-icon />
           </button>
         </div>
@@ -56,7 +65,9 @@
 </template>
 
 <script lang="ts">
+import MAutosizeTextarea from "@/atoms/MAutosizeTextarea/MAutosizeTextarea.vue";
 import MChatbox from "@/components/MChatBox.vue";
+import { postData, type FetchResponseJSON } from "@/utils/fetchUtils";
 import MdSend from "vue-material-design-icons/Send.vue";
 // import NotifyTune from "@/assets/notify.mp3";
 // import { postData } from "@/utils/fetchUtils";
@@ -80,11 +91,24 @@ export default {
   components: {
     "m-chat-box": MChatbox,
     "send-icon": MdSend,
+    "autosize-textarea": MAutosizeTextarea,
   },
   methods: {
     async sendMessage() {
       console.log("Send Message");
 
+      type FetchReqType = { [key: string]: null };
+
+      //   postData<FetchReqType>(
+      //     "/api/send-message",
+      //     { message: this.message },
+      //     (res: FetchResponseJSON<FetchReqType>) => {
+      //       if (res.success) {
+      //         console.log(res.data);
+      //         this.message = "";
+      //       } else console.log(res.message);
+      //     }
+      //   );
       //   const audio = new Audio(this.NotifyTune);
       //   if (this.message.trim() === "") {
       //     return;
