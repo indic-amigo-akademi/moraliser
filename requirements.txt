@@ -11,7 +11,7 @@ Flask==3.1.0
 Flask-Login==0.6
 Flask-Migrate==3.1
 # Flask-Script==2.0.6
-Flask-SQLAlchemy==3.0
+Flask-SQLAlchemy==3.1.1
 Flask_RESTful==0.3.10
 Flask-Bcrypt==1.0.1
 # Flask-Validator==1.4
