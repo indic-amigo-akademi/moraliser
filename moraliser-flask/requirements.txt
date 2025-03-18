@@ -21,7 +21,7 @@ flask-cors
 
 # Automated tests
 pytest==7.2.1
-pytest-cov==4.0
+pytest-cov==6.0.0
 email_validator
 
 # Datascience Frameworks
