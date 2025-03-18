@@ -13,7 +13,7 @@ Flask-Migrate==4.1.0
 # Flask-Script==2.0.6
 Flask-SQLAlchemy==3.1.1
 Flask_RESTful==0.3.10
-Flask-Bcrypt==1.0
+Flask-Bcrypt==1.0.1
 # Flask-Validator==1.4
 Flask-WTF==1.0
 # Flask-User==1.0.1.5
@@ -21,7 +21,7 @@ flask-cors
 
 # Automated tests
 pytest==8.3.5
-pytest-cov==4.0
+pytest-cov==6.0.0
 email_validator
 
 # Datascience Frameworks
