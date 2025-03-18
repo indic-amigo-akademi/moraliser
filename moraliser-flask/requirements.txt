@@ -20,7 +20,7 @@ Flask-WTF==1.0
 flask-cors
 
 # Automated tests
-pytest==7.2.1
+pytest==8.3.5
 pytest-cov==6.0.0
 email_validator
 
