@@ -6,9 +6,16 @@
 //   }
 // }
 
-export interface UserInfo {
+export interface UserType {
   id: number;
   username: string;
   email: string;
   phone: string;
+}
+
+export interface ChatType {
+  sender: UserType;
+  message: string;
+  date: string | Date;
+  isCurrentUser: boolean;
 }
