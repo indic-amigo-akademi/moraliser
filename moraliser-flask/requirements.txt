@@ -15,7 +15,7 @@ Flask-SQLAlchemy==3.1.1
 Flask_RESTful==0.3.10
 Flask-Bcrypt==1.0.1
 # Flask-Validator==1.4
-Flask-WTF==1.0
+Flask-WTF==1.2.2
 # Flask-User==1.0.1.5
 flask-cors
 
