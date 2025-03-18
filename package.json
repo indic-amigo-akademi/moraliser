@@ -27,7 +27,7 @@
         "bootstrap": "^5.2.2",
         "bootstrap-vue-3": "^0.4.6",
         "eslint-plugin-vue": "^9.6.0",
-        "lint-staged": "^13.0.3",
+        "lint-staged": "^15.5.0",
         "moment": "^2.29.4",
         "sass": "^1.55.0",
         "sass-loader": "^13.1.0",
