@@ -30,7 +30,7 @@
         "lint-staged": "^13.0.3",
         "moment": "^2.29.4",
         "sass": "^1.55.0",
-        "sass-loader": "^13.1.0",
+        "sass-loader": "^16.0.5",
         "typescript": "~5.8.2",
         "vue": "^3.2.41",
         "vue-material-design-icons": "^5.1.2",
