@@ -52,7 +52,8 @@
                         v-model="message" :max-height="200" placeholder="Type a message..."></autosize-textarea>
                     <input class="d-none" type="file" name="image" multiple />
                     <button class="btn btn-primary rounded-circle send-btn" type="submit">
-                        <send-icon />
+                        <!-- <send-icon /> -->
+                         <m-icon icon="carbon:send-filled" />
                     </button>
                 </div>
             </form>
@@ -64,7 +65,6 @@
 import MAutosizeTextarea from "@/atoms/MAutosizeTextarea/MAutosizeTextarea.vue";
 import MChatbox from "@/components/MChatBox.vue";
 import { postData, type FetchResponseJSON } from "@/utils/fetchUtils";
-import MdSend from "vue-material-design-icons/Send.vue";
 import type { ChatType } from "@/types/Models"
 // import NotifyTune from "@/assets/notify.mp3";
 // import { postData } from "@/utils/fetchUtils";
@@ -87,7 +87,6 @@ export default {
     },
     components: {
         "m-chat-box": MChatbox,
-        "send-icon": MdSend,
         "autosize-textarea": MAutosizeTextarea,
     },
     methods: {
