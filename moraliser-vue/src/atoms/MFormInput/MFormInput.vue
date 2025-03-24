@@ -75,7 +75,14 @@ function validateInput() {
         type: rule.split(':')[0] as MFormInputRulesType,
         value: rule.split(':')[1]
     }));
-    validator(value.value, rules);
+    const errors = validator({ value, name: props.name }, rules);
+    if (errors.length > 0) {
+        errorVal.value = errors[0];
+        return false;
+    } else {
+        errorVal.value = "";
+        return true;
+    }
 }
 
 </script>
