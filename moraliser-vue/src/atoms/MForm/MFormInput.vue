@@ -1,11 +1,15 @@
 <script setup lang="ts">
-import { computed, reactive, type PropType } from 'vue';
-import { validator, type MFormInputRulesType, type MFormInputType } from '@/atoms/MFormInput/MFormInputType'
+import { computed, onMounted, onUnmounted, reactive, type PropType } from 'vue';
+import { validator, type MFormInputRulesType, type MFormInputType } from '@/atoms/MForm/MFormInputType'
 
 const props = defineProps({
     name: {
         type: String,
         required: true
+    },
+    title: {
+        type: String,
+        default: ""
     },
     inputType: {
         type: String as PropType<MFormInputType>,
@@ -69,21 +73,26 @@ function togglePassword() {
     state.inputType = state.inputType === 'password' ? 'text' : 'password';
 }
 
-function validateInput() {
+function validate() {
     const rulesArr = props.rules.length > 0 ? props.rules : props.rule.split(',').map(rule => rule.trim());
     const rules = rulesArr.map(rule => ({
         type: rule.split(':')[0] as MFormInputRulesType,
         value: rule.split(':')[1]
     }));
-    const errors = validator({ value, name: props.name }, rules);
+    const errors = validator({ value, name: props.title }, rules);
+
     if (errors.length > 0) {
         errorVal.value = errors[0];
         return false;
-    } else {
-        errorVal.value = "";
-        return true;
     }
+
+    errorVal.value = "";
+    return true;
 }
+
+defineExpose({
+    validate
+});
 
 </script>
 
@@ -98,9 +107,9 @@ function validateInput() {
                 <m-icon :icon="prependIcon" />
             </span>
             <input :type="state.inputType" v-model="value" :name="name" class="form-control"
-                :class="{ 'is-invalid': errorValue }" :placeholder="placeholder" v-bind="$attrs" />
-            <span class="invalid-tooltip" v-if="errorValue">
-                {{ errorValue }}
+                :class="{ 'is-invalid': errorValue }" :placeholder="placeholder" @blur="validate" v-bind="$attrs" />
+            <span class="invalid-tooltip" v-if="errorVal">
+                {{ errorVal }}
             </span>
             <!-- Password Toggler -->
             <span class="input-group-text" v-if="props.inputType === 'password'" @click="togglePassword">

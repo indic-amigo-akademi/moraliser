@@ -4,6 +4,7 @@
   "private": true,
   "scripts": {
     "dev": "vite --port 5454",
+    "prod": "npm run build",
     "build": "run-p type-check build-only",
     "preview": "vite preview --port 5454",
     "test:unit": "vitest --environment jsdom --root src/",

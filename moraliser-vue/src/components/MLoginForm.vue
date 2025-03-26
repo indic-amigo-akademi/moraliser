@@ -7,7 +7,7 @@ import {
     type FetchResponseJSON,
 } from "@/utils/fetchUtils";
 import { updateCurrentUser } from "@/utils/authUtils";
-import MFormInput from "@/atoms/MFormInput/MFormInput.vue";
+import MFormInput from "@/atoms/MForm/MFormInput.vue";
 
 const state = reactive(
     {
