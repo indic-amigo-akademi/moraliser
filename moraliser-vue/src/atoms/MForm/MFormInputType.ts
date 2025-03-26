@@ -22,7 +22,7 @@ export interface MFormInputRulesBase {
     digits: number;
     minlength: number;
     maxlength: number;
-    pattern: string;
+    pattern: RegExp;
     phone: boolean;
     email: boolean;
     url: boolean;
@@ -58,7 +58,7 @@ export function validator(
                     errors.push(`${field.name} must be less than ${rule.value} characters`);
                 break;
             //   case "pattern":
-            //     if (!rule.value.test(field.value.toString()))
+            //     if (!rule.value.test(field.value.value))
             //       errors.push(`${field.name} must match the pattern ${rule.value}`);
             //     break;
             case 'phone':

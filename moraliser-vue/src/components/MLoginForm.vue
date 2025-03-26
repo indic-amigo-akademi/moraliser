@@ -59,11 +59,11 @@ function loginSubmit() {
         <small class="invalid-feedback" v-if="state.errors.all">{{ state.errors.all }}</small>
 
         <m-form-input label="Username/Email" prepend-icon="carbon:user-avatar" placeholder="Enter username"
-            rule="required,email,min:3" v-model="state.username" v-model:error-value="state.errors.username"
-            name="username" />
+            rule="required,min:3" v-model="state.username" v-model:error-value="state.errors.username"
+            name="username" title="Username/Email" />
 
         <m-form-input label="Password" input-type="password" prepend-icon="carbon:password" placeholder="Enter password"
-            rule="required,min:8" v-model="state.password" name="password" />
+            rule="required,min:8" v-model="state.password" name="password" title="Password" />
 
         <div class="btn-container text-center p-4">
             <button type="submit" class="btn btn-success">Login</button>
