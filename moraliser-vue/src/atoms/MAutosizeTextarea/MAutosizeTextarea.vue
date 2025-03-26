@@ -1,40 +1,40 @@
-<template>
-  <textarea
-    ref="textarea"
-    rows="3"
-    @input="resizeTextarea"
-    style="width: 100%; resize: none"
-  ></textarea>
-</template>
+<script setup lang="ts">
+import { computed, useTemplateRef } from 'vue';
 
-<script lang="ts">
-export default {
-  name: "MAutosizeTextarea",
-  props: {
+const props = defineProps({
     maxHeight: {
-      type: Number,
-      default: 100,
+        type: Number,
+        default: 100,
     },
-  },
-  data() {
-    return {
-      text: "",
-    };
-  },
-  mounted() {},
-  computed: {
-    textarea(): HTMLTextAreaElement {
-      return this.$refs.textarea as HTMLTextAreaElement;
+    modelValue: {
+        type: String,
+        default: ""
+    }
+});
+
+const emit = defineEmits(['update:modelValue']);
+
+const textareaRef = useTemplateRef("textarea");
+
+const textarea = computed(() => textareaRef.value as HTMLTextAreaElement),
+ value = computed({
+    get() {
+        return props.modelValue;
     },
-  },
-  methods: {
-    resizeTextarea() {
-      console.log(this.textarea.scrollHeight);
-      this.textarea.style.height = "auto"; // Reset the height
-      if (this.textarea.scrollHeight > this.maxHeight)
-        this.textarea.style.height = `${this.maxHeight}px`;
-      else this.textarea.style.height = `${this.textarea.scrollHeight}px`; // Set the height to match the content
-    },
-  },
-};
+    set(value) {
+        emit('update:modelValue', value);
+    }
+});
+
+function resizeTextarea() {
+    // console.log(textareaRef.scrollHeight);
+    textarea.value.style.height = "auto"; // Reset the height
+    if (textarea.value.scrollHeight > props.maxHeight)
+        textarea.value.style.height = `${props.maxHeight}px`;
+    else textarea.value.style.height = `${textarea.value.scrollHeight}px`; // Set the height to match the content
+}
 </script>
+
+<template>
+    <textarea ref="textarea" rows="3" v-model="value" @input="resizeTextarea" style="resize: none"></textarea>
+</template>

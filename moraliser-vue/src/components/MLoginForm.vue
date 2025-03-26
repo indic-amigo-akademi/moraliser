@@ -60,10 +60,10 @@ function loginSubmit() {
 
         <m-form-input label="Username/Email" prepend-icon="carbon:user-avatar" placeholder="Enter username"
             rule="required,min:3" v-model="state.username" v-model:error-value="state.errors.username"
-            name="username" title="Username/Email" />
+            name="username" title="Username/Email" container-classname="mb-3" />
 
         <m-form-input label="Password" input-type="password" prepend-icon="carbon:password" placeholder="Enter password"
-            rule="required,min:8" v-model="state.password" name="password" title="Password" />
+            rule="required,min:8" v-model="state.password" name="password" title="Password" container-classname="mb-3" />
 
         <div class="btn-container text-center p-4">
             <button type="submit" class="btn btn-success">Login</button>

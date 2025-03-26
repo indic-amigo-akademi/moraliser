@@ -1,6 +1,10 @@
+<style lang="scss"></style>
+
 <script setup lang="ts">
 import { computed, onMounted, onUnmounted, reactive, type PropType } from 'vue';
 import { validator, type MFormInputRulesType, type MFormInputType } from '@/atoms/MForm/MFormInputType'
+import MAutosizeTextarea from "@/atoms/MAutosizeTextarea/MAutosizeTextarea.vue";
+
 
 const props = defineProps({
     name: {
@@ -16,8 +20,8 @@ const props = defineProps({
         default: "text"
     },
     label: {
-        type: String,
-        default: "Name"
+        type: [String, Boolean],
+        default: false
     },
     placeholder: {
         type: String,
@@ -42,6 +46,10 @@ const props = defineProps({
         default: []
     },
     rule: {
+        type: String,
+        default: ""
+    },
+    containerClassname: {
         type: String,
         default: ""
     }
@@ -97,22 +105,31 @@ defineExpose({
 </script>
 
 <template>
-    <div class="form-group">
-        <label :for="name">
+    <div class="form-group" :class="containerClassname">
+        <label :for="name" v-if="label">
             <span>{{ label }}</span>
             <span v-if="isMandatory" class="text-danger">*</span>
         </label>
-        <div class="input-group mb-3">
+        <div class="input-group">
             <span class="input-group-text" v-if="prependIcon">
                 <m-icon :icon="prependIcon" />
             </span>
-            <input :type="state.inputType" v-model="value" :name="name" class="form-control"
-                :class="{ 'is-invalid': errorValue }" :placeholder="placeholder" @blur="validate" v-bind="$attrs" />
+
+            <!-- Textarea -->
+            <m-autosize-textarea v-if="inputType === 'textarea'" v-model="value" class="form-control"
+                :class="{ 'is-invalid': errorValue, 'border-start-0': prependIcon, 'border-end-0': appendIcon || props.inputType === 'password' }"
+                :placeholder="placeholder" @blur="validate" v-bind="$attrs"></m-autosize-textarea>
+            <!-- Input -->
+            <input v-else :type="state.inputType" v-model="value" :name="name" class="form-control"
+                :class="{ 'is-invalid': errorValue, 'border-start-0': prependIcon, 'border-end-0': appendIcon || props.inputType === 'password' }"
+                :placeholder="placeholder" @blur="validate" v-bind="$attrs" />
+
             <span class="invalid-tooltip" v-if="errorVal">
                 {{ errorVal }}
             </span>
             <!-- Password Toggler -->
-            <span class="input-group-text" v-if="props.inputType === 'password'" @click="togglePassword">
+            <span :class="['input-group-text', appendIcon ? 'border-end-0' : '']" v-if="props.inputType === 'password'"
+                @click="togglePassword">
                 <m-icon v-if="state.inputType === 'password'" icon="carbon:view" />
                 <m-icon v-else icon="carbon:view-off" />
             </span>

@@ -13,6 +13,7 @@ export interface MFormInputTypeBase {
     time: unknown;
     datetime: unknown;
     phone: unknown;
+    textarea: unknown;
 }
 
 export type MFormInputType = keyof MFormInputTypeBase;
