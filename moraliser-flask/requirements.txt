@@ -5,7 +5,7 @@
 python-dotenv
 
 # Flask Framework
-Flask==3.1.0
+Flask==2.3
 
 # Flask Packages
 Flask-Login==0.6
@@ -15,9 +15,10 @@ Flask-SQLAlchemy==3.1.1
 Flask_RESTful==0.3.10
 Flask-Bcrypt==1.0
 # Flask-Validator==1.4
-Flask-WTF==1.0
+Flask-WTF==1.2
 # Flask-User==1.0.1.5
 flask-cors
+werkzeug==2.3
 
 # Automated tests
 pytest==7.2.1
@@ -28,3 +29,7 @@ email_validator
 numpy
 pandas
 scikit-learn
+
+# Web Scraping
+BeautifulSoup4
+requests

@@ -36,3 +36,13 @@ def text_chat_validate():
             },
         }
     )
+
+
+@api_bp.route("link-preview", methods=["POST"])
+def get_link_preview():
+    url = request.form.get("url")
+    from chat.utils.link_preview import LinkPreview
+    preview = LinkPreview(url)
+    return jsonify(
+        {"success": True, "message": "Link preview done!", "data": preview.to_dict()}
+    )
