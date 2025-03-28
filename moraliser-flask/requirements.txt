@@ -33,3 +33,4 @@ scikit-learn
 # Web Scraping
 BeautifulSoup4
 requests
+lxml

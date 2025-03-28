@@ -38,7 +38,7 @@ def text_chat_validate():
     )
 
 
-@api_bp.route("link-preview", methods=["POST"])
+@api_bp.route("/link-preview", methods=["POST"])
 def get_link_preview():
     url = request.form.get("url")
     from chat.utils.link_preview import LinkPreview

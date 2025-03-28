@@ -1,11 +1,30 @@
 import requests
 from bs4 import BeautifulSoup
 from urllib.parse import urlparse
+from enum import Enum
+
+
+class LinkType(Enum):
+    LINK = 0
+    IMAGE = 1
+    VIDEO = 2
+    AUDIO = 3
+    TEXT = 4
+    YOUTUBE = 11
+    FACEBOOK = 12
+    INSTAGRAM = 13
+    SPOTIFY = 14
 
 
 class LinkPreview:
     def __init__(self, url):
         self.__url = url
+        self.__title = None
+        self.__description = None
+        self.__domain = None
+        self.__image = None
+        self.__type = LinkType.LINK
+
         self.__process_url()
 
     def __get_title(self, soup: BeautifulSoup):
@@ -134,16 +153,48 @@ class LinkPreview:
 
         return None
 
+    def __check_for_type(self, content_type):
+        if content_type is not None:
+            if "image/" in content_type:
+                return LinkType.IMAGE
+            elif "video/" in content_type:
+                return LinkType.VIDEO
+            elif "audio/" in content_type:
+                return LinkType.AUDIO
+            elif "text/" in content_type and "/html" not in content_type:
+                return LinkType.TEXT
+
+        if "youtube.com" in self.__domain:
+            return LinkType.YOUTUBE
+        elif "facebook.com" in self.__domain:
+            return LinkType.FACEBOOK
+        elif "instagram.com" in self.__domain:
+            return LinkType.INSTAGRAM
+        elif "spotify.com" in self.__domain:
+            return LinkType.SPOTIFY
+
+        return LinkType.LINK
+
     def __process_url(self):
         try:
             res = requests.get(self.__url)
             if res.status_code == 200:
                 soup = BeautifulSoup(res.content, "lxml")
 
-                self.title = self.__get_title(soup=soup)
-                self.description = self.__get_description(soup=soup)
-                self.domain = self.__get_domain(soup=soup)
-                self.image = self.__get_image(soup=soup)
+                content_type = res.headers.get("Content-Type")
+
+                self.__domain = self.__get_domain(soup=soup)
+                self.__type = self.__check_for_type(content_type)
+
+                if self.__type == LinkType.LINK:
+                    self.__title = self.__get_title(soup=soup)
+                    self.__description = self.__get_description(soup=soup)
+                    self.__image = self.__get_image(soup=soup)
+                if self.__type == LinkType.IMAGE:
+                    self.__image = self.__url
+                    self.__title = self.__url
+                
+
             else:
                 return None
         except requests.exceptions.RequestException as e:
@@ -151,8 +202,10 @@ class LinkPreview:
 
     def to_dict(self) -> dict:
         return {
-            "title": self.title,
-            "description": self.description,
-            "domain": self.domain,
-            "image": self.image,
+            "title": self.__title,
+            "description": self.__description,
+            "domain": self.__domain,
+            "image": self.__image,
+            "url": self.__url,
+            "type": self.__type.name,
         }
