@@ -2,7 +2,7 @@ import requests
 from bs4 import BeautifulSoup
 from urllib.parse import urlparse
 from enum import Enum
-
+import re
 
 class LinkType(Enum):
     LINK = 0
@@ -111,47 +111,65 @@ class LinkPreview:
         return domain
 
     def __get_image(self, soup: BeautifulSoup):
+        image_url = None
+
         og_image_ele = soup.find("meta", attrs={"property": "og:image"})
         if og_image_ele is not None:
             og_image = og_image_ele["content"]
             if len(og_image) > 0:
-                return og_image
+                image_url = og_image
 
-        twitter_image_ele = soup.find("meta", attrs={"name": "twitter:image"})
-        if twitter_image_ele is not None:
-            twitter_image = twitter_image_ele["content"]
-            if len(twitter_image) > 0:
-                return twitter_image
+        if image_url is None:
+            twitter_image_ele = soup.find("meta", attrs={"name": "twitter:image"})
+            if twitter_image_ele is not None:
+                twitter_image = twitter_image_ele["content"]
+                if len(twitter_image) > 0:
+                    image_url = twitter_image
 
-        link_rel_image_ele = soup.find("link", attrs={"rel": "image_src"})
-        if link_rel_image_ele is not None:
-            link_rel_image = link_rel_image_ele["href"]
-            if len(link_rel_image) > 0:
-                return link_rel_image
+        if image_url is None:
+            link_rel_image_ele = soup.find("link", attrs={"rel": "image_src"})
+            if link_rel_image_ele is not None:
+                link_rel_image = link_rel_image_ele["href"]
+                if len(link_rel_image) > 0:
+                    image_url = link_rel_image
 
-        meta_image_ele = soup.find("meta", attrs={"name": "image"})
-        if meta_image_ele is not None:
-            meta_image = meta_image_ele["content"]
-            if len(meta_image) > 0:
-                return meta_image
+        if image_url is None:
+            meta_image_ele = soup.find("meta", attrs={"name": "image"})
+            if meta_image_ele is not None:
+                meta_image = meta_image_ele["content"]
+                if len(meta_image) > 0:
+                    image_url = meta_image
 
-        image_eles = soup.find_all("img")
-        for image_ele in image_eles:
-            # Check if aspect ratio is not more than 3
-            if image_ele.has_attr("width") and image_ele.has_attr("height"):
-                width = int(image_ele["width"])
-                height = int(image_ele["height"])
-                if (
-                    width / height < 3
-                    and height / width < 3
-                    and width > 50
-                    and height > 50
-                ):
-                    image_url = image_ele["src"]
-                    if len(image_url) > 0:
-                        return image_url
+        if image_url is None:
+            image_eles = soup.find_all("img")
+            for image_ele in image_eles:
+                # Check if aspect ratio is not more than 3
+                if image_ele.has_attr("width") and image_ele.has_attr("height"):
+                    width = re.search('(\\d+)', str(image_ele["width"])).group(0)
+                    width = int(width or 0)
+                    height = re.search('(\\d+)', str(image_ele["height"])).group(0)
+                    height = int(height or 0)
+                    if (
+                        width / height < 3
+                        and height / width < 3
+                        and width > 50
+                        and height > 50
+                    ):
+                        img_url = image_ele["src"]
+                        if len(img_url) > 0:
+                            image_url = img_url
+                            break
 
-        return None
+        # Check if image_url is relative
+        if image_url.startswith("/"):
+            parsed_url = urlparse(self.__url)
+            image_url = f"{parsed_url.scheme}://{parsed_url.netloc}{image_url}"
+        # Check if image_url is absolute
+        elif not image_url.startswith("http"):
+            parsed_url = urlparse(self.__url)
+            image_url = f"{parsed_url.scheme}://{parsed_url.netloc}{parsed_url.path}{image_url}"
+
+        return image_url
 
     def __check_for_type(self, content_type):
         if content_type is not None:
@@ -186,14 +204,13 @@ class LinkPreview:
                 self.__domain = self.__get_domain(soup=soup)
                 self.__type = self.__check_for_type(content_type)
 
-                if self.__type == LinkType.LINK:
+                if self.__type in [LinkType.LINK, LinkType.YOUTUBE, LinkType.INSTAGRAM, LinkType.SPOTIFY]:
                     self.__title = self.__get_title(soup=soup)
                     self.__description = self.__get_description(soup=soup)
                     self.__image = self.__get_image(soup=soup)
                 if self.__type == LinkType.IMAGE:
                     self.__image = self.__url
                     self.__title = self.__url
-                
 
             else:
                 return None
@@ -209,3 +226,27 @@ class LinkPreview:
             "url": self.__url,
             "type": self.__type.name,
         }
+
+    @property
+    def title(self):
+        return self.__title
+
+    @property
+    def description(self):
+        return self.__description
+
+    @property
+    def domain(self):
+        return self.__domain
+
+    @property
+    def image(self):
+        return self.__image
+
+    @property
+    def type(self):
+        return self.__type.name
+
+    @property
+    def url(self):
+        return self.__url
