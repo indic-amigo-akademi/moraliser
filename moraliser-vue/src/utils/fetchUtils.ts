@@ -8,7 +8,7 @@ const locationURL = {
   prod: "",
 };
 
-export interface FetchResponseJSON<T> {
+export interface APIResponse<T> {
   success: boolean;
   message: string;
   data: T;
@@ -73,7 +73,7 @@ export async function fetchData<T>(
         }
         return res.json();
       })
-      .then((resJson: FetchResponseJSON<T>) => callback(resJson))
+      .then((resJson: APIResponse<T>) => callback(resJson))
       .catch((err) => {
         if (import.meta.env.DEV) console.log(err);
       });
@@ -88,7 +88,7 @@ export async function fetchData<T>(
         }
         return res.json();
       })
-      .then((resJson: FetchResponseJSON<T>) => callback(resJson))
+      .then((resJson: APIResponse<T>) => callback(resJson))
       .catch((err) => {
         if (import.meta.env.DEV) console.log(err);
       });

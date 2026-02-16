@@ -48,7 +48,7 @@
           <autosize-textarea
             cols="1"
             rows="1"
-            class="form-control p-2 px-5 text-msg-input"
+            class="form-control p-2 px-4 text-msg-input"
             name="message"
             v-model="message"
             :max-height="200"
@@ -67,8 +67,9 @@
 <script lang="ts">
 import MAutosizeTextarea from "@/atoms/MAutosizeTextarea/MAutosizeTextarea.vue";
 import MChatbox from "@/components/MChatBox.vue";
-import { postData, type FetchResponseJSON } from "@/utils/fetchUtils";
+import { postData, type APIResponse } from "@/utils/fetchUtils";
 import MdSend from "vue-material-design-icons/Send.vue";
+import type { Chat } from "@/types/Models";
 // import NotifyTune from "@/assets/notify.mp3";
 // import { postData } from "@/utils/fetchUtils";
 
@@ -76,7 +77,7 @@ export default {
   name: "m-chat",
   data() {
     return {
-      chats: [],
+      chats: [] as Chat[],
       message: "",
     };
   },
@@ -97,28 +98,30 @@ export default {
     async sendMessage() {
       console.log("Send Message");
 
-      type FetchReqType = { [key: string]: null };
+      //   type FetchReqType = { [key: string]: null };
 
-      //   postData<FetchReqType>(
-      //     "/api/send-message",
-      //     { message: this.message },
-      //     (res: FetchResponseJSON<FetchReqType>) => {
-      //       if (res.success) {
-      //         console.log(res.data);
-      //         this.message = "";
-      //       } else console.log(res.message);
-      //     }
-      //   );
-      //   const audio = new Audio(this.NotifyTune);
-      //   if (this.message.trim() === "") {
-      //     return;
-      //   }
-      //   let newChat = {
-      //     sender: {
-      //       name: "Purbayan",
-      //       userid: 12,
-      //     },
-      //   };
+      postData<Chat>(
+        "/api/send-message",
+        { message: this.message },
+        (res: APIResponse<Chat>) => {
+          if (res.success) {
+            console.log(res.data);
+            this.chats.push(res.data as Chat);
+            this.message = "";
+          } else console.log(res.message);
+        }
+      );
+
+      // const audio = new Audio(this.NotifyTune);
+      // if (this.message.trim() === "") {
+      //   return;
+      // }
+      // let newChat = {
+      //   sender: {
+      //     name: "Purbayan",
+      //     userid: 12,
+      //   },
+      // };
 
       //   postData(
       //     "/api/text-validate",

@@ -2,6 +2,7 @@ from flask import request, jsonify
 from chat.api import api_bp
 import pickle
 import re
+from chat.processor.text_processor import TextProcessor
 
 
 class TextSpamClassifier:
@@ -80,5 +81,20 @@ def text_chat_validate():
                 "spam_text": f"{spam_text}",
                 "prof_text": f"{prof_text}",
             },
+        }
+    )
+
+
+@api_bp.route("/send-message", methods=["POST"])
+def send_message():
+    message = request.form.get("message")
+    textProcessor = TextProcessor()
+    links = textProcessor.parse_links(message)
+
+    return jsonify(
+        {
+            "success": True,
+            "message": "Message sent successfully!",
+            "data": {"links": links, "content": message, "created_at": ""},
         }
     )

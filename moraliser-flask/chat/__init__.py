@@ -1,5 +1,5 @@
 import os
-from flask import Flask, render_template, session, request, jsonify, Response
+from flask import Flask, render_template, session, request, jsonify, Response, current_app
 from flask_migrate import Migrate
 from flask_wtf.csrf import CSRFProtect, generate_csrf, CSRFError
 from chat.api import api_bp
@@ -21,14 +21,15 @@ def create_app(test_config=None) -> Flask:
 
     @app.before_request
     def checking_request():
-        print(request.method)
-        print("Before Session_csrf:", session.get("csrf_token"))
-        if "csrf_token" in request.form:
-            print("Request csrf_token:", request.form["csrf_token"])
+        pass
+        # print(request.method)
+        # print("Before Session_csrf:", session.get("csrf_token"))
+        # if "csrf_token" in request.form:
+        #     print("Request csrf_token:", request.form["csrf_token"])
 
     @app.after_request
     def set_cookie(response):
-        print("After Session_csrf:", session.get("csrf_token"))
+        # print("After Session_csrf:", session.get("csrf_token"))
         # session.set_cookie("csrf_token", generate_csrf())
         return response
 
@@ -50,9 +51,6 @@ def create_app(test_config=None) -> Flask:
 
     @app.route("/", methods=["GET"])
     def index() -> Response:
-        # return jsonify(
-        #     {"success": True, "message": "Moraliser server is up and running!🖥️"}
-        # )
         return render_template('index.html')
 
     @app.errorhandler(CSRFError)
@@ -63,5 +61,6 @@ def create_app(test_config=None) -> Flask:
     # dist_dir = current_app.config['DIST_DIR']
     # entry = os.path.join(dist_dir, 'index.html')
     # return render_template('index.html')
+    app.logger.info("Moraliser server is up and running!🖥️")
 
     return app

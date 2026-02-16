@@ -101,7 +101,7 @@
 
 <script lang="ts">
 import { mapActions } from "vuex";
-import { postData, type FetchResponseJSON } from "@/utils/fetchUtils";
+import { postData, type APIResponse } from "@/utils/fetchUtils";
 
 export default {
   name: "m-register-form",
@@ -137,7 +137,7 @@ export default {
           username: this.username,
           password: this.password,
         },
-        (res: FetchResponseJSON<FetchReqType>) => {
+        (res: APIResponse<FetchReqType>) => {
           (Object.keys(this.errors) as (keyof typeof this.errors)[]).forEach(
             (key) => (this.errors[key] = "")
           );

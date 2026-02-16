@@ -1,10 +1,5 @@
 import store from "@/store";
-import {
-  postData,
-  type FetchResponseJSON,
-  redirectTo,
-  getData,
-} from "./fetchUtils";
+import { postData, type APIResponse, redirectTo, getData } from "./fetchUtils";
 import type { UserInfo } from "@/types/Models";
 
 export function logoutUser() {
@@ -12,7 +7,7 @@ export function logoutUser() {
   postData<FetchReqType>(
     "/api/logout",
     {},
-    (res: FetchResponseJSON<FetchReqType>) => {
+    (res: APIResponse<FetchReqType>) => {
       if (res.success) {
         redirectTo("/");
         store.commit("setAuthUser", { user: null });
@@ -26,7 +21,7 @@ export function updateCurrentUser() {
   getData<FetchReqType>(
     "/api/current",
     null,
-    (res: FetchResponseJSON<FetchReqType>) => {
+    (res: APIResponse<FetchReqType>) => {
       if (res.success)
         store.commit("setAuthUser", {
           user: res.data.user as UserInfo | null,

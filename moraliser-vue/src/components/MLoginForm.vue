@@ -40,7 +40,7 @@ import { mapActions } from "vuex";
 import {
   postData,
   redirectTo,
-  type FetchResponseJSON,
+  type APIResponse,
 } from "@/utils/fetchUtils";
 import { updateCurrentUser } from "@/utils/authUtils";
 
@@ -63,7 +63,7 @@ export default {
       postData<FetchReqType>(
         "/api/login",
         { username: this.username, password: this.password },
-        (res: FetchResponseJSON<FetchReqType>) => {
+        (res: APIResponse<FetchReqType>) => {
           (Object.keys(this.errors) as (keyof typeof this.errors)[]).forEach(
             (key) => (this.errors[key] = "")
           );

@@ -71,17 +71,17 @@
 <template>
   <div class="chatbox" :class="{ current: isCurrentUser }">
     <div class="chatbox-header">
-      <h3>{{ isCurrentUser ? "You" : sender.name }}</h3>
+      <h3>{{ isCurrentUser ? "You" : author.username }}</h3>
     </div>
     <div
       class="chatbox-body"
       :class="isCurrentUser ? 'chat-secondary' : 'chat-primary'"
     >
-      <div class="msg">{{ msg }}</div>
+      <div class="msg">{{ content }}</div>
     </div>
     <div class="chatbox-footer">
       <div>
-        {{ fromNow(date) }}
+        {{ fromNow(created_at) }}
       </div>
     </div>
   </div>
@@ -89,19 +89,32 @@
 
 <script lang="ts">
 // import moment from "moment";
+import type { UserInfo, Link } from "@/types/Models";
+import type { PropType } from "vue";
 
 export default {
   name: "m-chat-box",
   props: {
-    sender: {
-      type: Object,
+    author: {
+      type: Object as PropType<UserInfo>,
       default: () => {
-        return { name: "Hello" };
+        return { username: "Hello" };
       },
     },
-    msg: String,
-    date: { type: String, default: new Date().toISOString() },
-    isCurrentUser: { type: Boolean, default: false },
+    content: String,
+    links: {
+      type: Array as PropType<Link[]>,
+      default: () => {
+        return [];
+      },
+    },
+    created_at: { type: String, default: new Date().toISOString() },
+    updated_at: { type: String, default: new Date().toISOString() },
+  },
+  computed: {
+    isCurrentUser() {
+      return true;
+    },
   },
   methods: {
     fromNow(date: Date | string) {
