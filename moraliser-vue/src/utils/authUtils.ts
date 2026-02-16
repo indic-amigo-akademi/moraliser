@@ -1,6 +1,11 @@
 import store from "@/store";
-import { postData, type APIResponse, redirectTo, getData } from "./fetchUtils";
-import type { UserInfo } from "@/types/Models";
+import {
+  postData,
+  type FetchResponseJSON,
+  redirectTo,
+  getData,
+} from "./fetchUtils";
+import type { UserType } from "@/types/Models";
 
 export function logoutUser() {
   type FetchReqType = { [key: string]: null };
@@ -17,14 +22,14 @@ export function logoutUser() {
 }
 
 export function updateCurrentUser() {
-  type FetchReqType = { [key: string]: UserInfo | string | null };
+  type FetchReqType = { [key: string]: UserType | string | null };
   getData<FetchReqType>(
     "/api/current",
     null,
     (res: APIResponse<FetchReqType>) => {
       if (res.success)
         store.commit("setAuthUser", {
-          user: res.data.user as UserInfo | null,
+          user: res.data.user as UserType | null,
           csrf_token: res.data.csrf_token,
         });
       else console.log(res.message);

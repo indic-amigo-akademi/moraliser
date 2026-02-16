@@ -1,14 +1,14 @@
 import { createStore } from "vuex";
-import type { UserInfo } from "../types/Models";
+import type { UserType } from "../types/Models";
 
 export interface AppStoreState {
   isLoginModalOpen: boolean;
-  auth: UserInfo | null;
+  auth: UserType | null;
   csrf_token: string | null;
 }
 export interface AppStoreAction {
   isOpen: boolean;
-  user: UserInfo | null;
+  user: UserType | null;
   csrf_token: string | null;
 }
 

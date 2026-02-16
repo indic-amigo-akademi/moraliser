@@ -20,7 +20,7 @@
         </router-link>
 
         <div class="collapse navbar-collapse" id="navbarNav">
-          <ul class="navbar-nav me-auto">
+          <ul class="navbar-nav ms-auto">
             <li class="nav-item">
               <router-link class="nav-link" active-class="active" to="/">
                 Home
@@ -31,7 +31,7 @@
                 Login/Register
               </a>
             </li>
-            <li class="nav-item" v-else>
+            <li class="nav-item dropdown" v-else>
               <a
                 class="nav-link dropdown-toggle"
                 href="#"
@@ -40,7 +40,7 @@
               >
                 {{ auth?.username }}
               </a>
-              <ul class="dropdown-menu">
+              <ul class="dropdown-menu dropdown-menu-lg-end bg-light">
                 <li>
                   <a href="#settings" class="dropdown-item"> Settings </a>
                 </li>

@@ -3,5 +3,9 @@
 ## Test
 
 ```bash
-python -m pytest --cov=chat tests/
+python -m pytest -v
+```
+
+```bash
+python -m pytest --cov-report term-missing --cov=chat
 ```

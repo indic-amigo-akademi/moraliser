@@ -21,11 +21,10 @@ def create_app(test_config=None) -> Flask:
 
     @app.before_request
     def checking_request():
-        pass
-        # print(request.method)
+        print(request.method)
         # print("Before Session_csrf:", session.get("csrf_token"))
-        # if "csrf_token" in request.form:
-        #     print("Request csrf_token:", request.form["csrf_token"])
+        if "csrf_token" in request.form:
+            print("Request csrf_token:", request.form["csrf_token"])
 
     @app.after_request
     def set_cookie(response):

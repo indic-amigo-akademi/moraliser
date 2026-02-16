@@ -1,58 +1,11 @@
 from flask import request, jsonify
 from chat.api import api_bp
-import pickle
-import re
-from chat.processor.text_processor import TextProcessor
-
-
-class TextSpamClassifier:
-    def __init__(self) -> None:
-        with open("notebooks/spam_filter/model_spam.pickle", "rb") as handle:
-            self.model = pickle.load(handle)
-        with open("notebooks/spam_filter/vectorizer_spam.pickle", "rb") as handle:
-            self.vectorizer = pickle.load(handle)
-
-    def __preprocess_text(self, text):
-        text = text.lower()
-        text = re.sub(r"[^a-zA-Z0-9]", " ", text)
-        text = text.strip()
-        text = text.split()
-        text = " ".join(list(filter(lambda x: x not in ["", " "], text)))
-        return text
-
-    def predict_proba(self, X):
-        val = self.__preprocess_text(X)
-        val = self.vectorizer.transform([val])
-        prob = self.model.predict_proba(val)[0][1]
-        return prob
-
-
-class TextProfanityClassifier:
-    def __init__(self) -> None:
-        with open("notebooks/profanity_filter/model_profanity.pickle", "rb") as handle:
-            self.model = pickle.load(handle)
-        with open(
-            "notebooks/profanity_filter/vectorizer_profanity.pickle", "rb"
-        ) as handle:
-            self.vectorizer = pickle.load(handle)
-
-    def __preprocess_text(self, text):
-        text = text.lower()
-        text = re.sub(r"[^a-zA-Z0-9]", " ", text)
-        text = text.strip()
-        text = text.split()
-        text = " ".join(list(filter(lambda x: x not in ["", " "], text)))
-        return text
-
-    def predict_proba(self, X):
-        val = self.__preprocess_text(X)
-        val = self.vectorizer.transform([val])
-        prob = self.model.predict(val)[0]
-        return prob
 
 
 @api_bp.route("/text-validate", methods=["POST"])
 def text_chat_validate():
+    from chat.utils.text_classifier import TextSpamClassifier, TextProfanityClassifier
+
     message = request.form.get("message")
     tsc = TextSpamClassifier()
     tpc = TextProfanityClassifier()
@@ -85,16 +38,11 @@ def text_chat_validate():
     )
 
 
-@api_bp.route("/send-message", methods=["POST"])
-def send_message():
-    message = request.form.get("message")
-    textProcessor = TextProcessor()
-    links = textProcessor.parse_links(message)
-
+@api_bp.route("/link-preview", methods=["POST"])
+def get_link_preview():
+    url = request.form.get("url")
+    from chat.utils.link_preview import LinkPreview
+    preview = LinkPreview(url)
     return jsonify(
-        {
-            "success": True,
-            "message": "Message sent successfully!",
-            "data": {"links": links, "content": message, "created_at": ""},
-        }
+        {"success": True, "message": "Link preview done!", "data": preview.to_dict()}
     )

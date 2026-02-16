@@ -1,161 +1,109 @@
-<template>
-  <form class="form registerForm" @submit.prevent="registerSubmit">
-    <!-- Email Field -->
-    <div class="form-group">
-      <label for="rfemaill">Email</label>
-      <input
-        type="email"
-        v-model="email"
-        name="rfemail"
-        id="rfemail"
-        class="form-control"
-        autocomplete="email"
-        :class="{ 'is-invalid': errors.email, 'is-valid': !errors.email }"
-        placeholder="Enter email"
-      />
-      <small class="invalid-feedback" v-if="errors.email">{{
-        errors.email
-      }}</small>
-    </div>
+<script setup lang="ts">
+import { useStore } from "vuex";
+import { postData, type FetchResponseJSON } from "@/utils/fetchUtils";
+import { reactive, useTemplateRef } from "vue";
+import MFormInput from "@/atoms/MForm/MFormInput.vue";
+import MForm from "@/atoms/MForm/MForm.vue";
 
-    <!-- Username Field -->
-    <div class="form-group">
-      <label for="rfuser">Username</label>
-      <input
-        type="text"
-        v-model="username"
-        name="rfuser"
-        id="rfuser"
-        class="form-control"
-        autocomplete="username"
-        :class="{ 'is-invalid': errors.username, 'is-valid': !errors.username }"
-        placeholder="Enter username"
-      />
-      <small class="invalid-feedback" v-if="errors.username">{{
-        errors.username
-      }}</small>
-    </div>
-
-    <!-- Phone Field -->
-    <div class="form-group">
-      <label for="rfphone">Phone</label>
-      <input
-        type="text"
-        v-model="phone"
-        name="rfphone"
-        id="rfphone"
-        class="form-control"
-        autocomplete="tel"
-        :class="{ 'is-invalid': errors.phone, 'is-valid': !errors.phone }"
-        placeholder="Enter mobile number"
-      />
-      <small class="invalid-feedback" v-if="errors.phone">{{
-        errors.phone
-      }}</small>
-    </div>
-
-    <!-- Password Field -->
-    <div class="form-group">
-      <label for="rfpwd">Password</label>
-      <input
-        type="password"
-        v-model="password"
-        name="rfpwd"
-        id="rfpwd"
-        class="form-control"
-        autocomplete="new-password"
-        :class="{ 'is-invalid': errors.password, 'is-valid': !errors.password }"
-        placeholder="Enter password"
-      />
-      <small class="invalid-feedback" v-if="errors.password">{{
-        errors.password
-      }}</small>
-    </div>
-
-    <!-- Repeat Password Field -->
-    <div class="form-group">
-      <label for="rfpwd">Repeat Password</label>
-      <input
-        type="password"
-        v-model="rpassword"
-        name="rfrpwd"
-        id="rfrpwd"
-        class="form-control"
-        autocomplete="new-password"
-        :class="{
-          'is-invalid': errors.rpassword,
-          'is-valid': !errors.rpassword,
-        }"
-        placeholder="Confirm password"
-      />
-      <small class="invalid-feedback" v-if="errors.rpassword">{{
-        errors.rpassword
-      }}</small>
-    </div>
-
-    <div class="btn-container text-center p-4">
-      <button type="submit" class="btn btn-success">Register</button>
-    </div>
-  </form>
-</template>
-
-<script lang="ts">
-import { mapActions } from "vuex";
-import { postData, type APIResponse } from "@/utils/fetchUtils";
-
-export default {
-  name: "m-register-form",
-  data() {
-    return {
-      email: "",
-      username: "",
-      phone: "",
-      password: "",
-      rpassword: "",
-      errors: {
+const state = reactive({
+    email: "",
+    username: "",
+    phone: "",
+    password: "",
+    rpassword: "",
+    errors: {
         email: "",
         username: "",
         phone: "",
         password: "",
         rpassword: "",
-      },
-    };
-  },
-  methods: {
-    registerSubmit() {
-      if (this.password !== this.rpassword) {
-        this.rpassword = "Passwords do not match";
-        return;
-      }
+    },
+});
 
-      type FetchReqType = { [key: string]: { [key: string]: string[] } };
-      postData<FetchReqType>(
+const emailRef = useTemplateRef("email");
+const usernameRef = useTemplateRef("username");
+const phoneRef = useTemplateRef("phone");
+const passwordRef = useTemplateRef("password");
+// const rpasswordRef = useTemplateRef("rpassword");
+
+const formRefs = [emailRef, usernameRef, phoneRef, passwordRef];
+
+
+const registerSubmit = () => {
+    if (state.password !== state.rpassword) {
+        state.errors.rpassword = "Passwords do not match";
+        return;
+    }
+
+    const hasErrors = formRefs.some((ref: any) =>
+        !ref.value.validate()
+    );
+    if (hasErrors) return;
+
+    type FetchReqType = { [key: string]: { [key: string]: string[] } };
+    postData<FetchReqType>(
         "/api/register",
         {
-          email: this.email,
-          phone: this.phone,
-          username: this.username,
-          password: this.password,
+            email: state.email,
+            phone: state.phone,
+            username: state.username,
+            password: state.password,
         },
-        (res: APIResponse<FetchReqType>) => {
-          (Object.keys(this.errors) as (keyof typeof this.errors)[]).forEach(
-            (key) => (this.errors[key] = "")
-          );
-          if (res.success) {
-            this.closeLoginModal();
-            window.location.reload();
-          } else {
-            console.log(res.message);
-            (
-              Object.keys(res.data.errors) as (keyof typeof this.errors)[]
-            ).forEach(
-              (key) => (this.errors[key] = res.data.errors[key].join(" "))
+        (res: FetchResponseJSON<FetchReqType>) => {
+            (Object.keys(state.errors) as (keyof typeof state.errors)[]).forEach(
+                (key) => (state.errors[key] = "")
             );
-          }
+            if (res.success) {
+                closeLoginModal();
+                window.location.reload();
+            } else {
+                console.log(res.message);
+                (
+                    Object.keys(res.data.errors) as (keyof typeof state.errors)[]
+                ).forEach(
+                    (key) => (state.errors[key] = res.data.errors[key].join(" "))
+                );
+            }
         }
-      );
-    },
-    ...mapActions(["closeLoginModal"]),
-  },
+    );
 };
+
+const store = useStore();
+
+const closeLoginModal = () => store.dispatch("closeLoginModal");
 </script>
+
+
+<template>
+    <m-form class="registerForm" @submit="registerSubmit">
+        <!-- Email Field -->
+        <m-form-input label="Email" prepend-icon="carbon:email" input-type="email" v-model="state.email"
+            v-model:error-value="state.errors.email" placeholder="Enter email" autocomplete="email" name="email"
+            rule="required,email" title="Email" ref="email" container-classname="mb-3" />
+
+        <!-- Username Field -->
+        <m-form-input label="Username" prepend-icon="carbon:user" input-type="text" v-model="state.username"
+            v-model:error-value="state.errors.username" placeholder="Enter username" autocomplete="username"
+            name="username" rule="required,min:3,max:15" title="Username" ref="username" container-classname="mb-3" />
+
+        <!-- Phone Field -->
+        <m-form-input label="Phone" prepend-icon="carbon:phone" input-type="phone" v-model="state.phone"
+            v-model:error-value="state.errors.phone" placeholder="Enter mobile number" autocomplete="tel" name="phone"
+            rule="required,phone" title="Phone Number" ref="phone" container-classname="mb-3" />
+
+        <!-- Password Field -->
+        <m-form-input label="Password" prepend-icon="carbon:password" input-type="password" v-model="state.password"
+            v-model:error-value="state.errors.password" placeholder="Enter password" autocomplete="new-password"
+            name="password" rule="required,min:6,max:15" title="Password" ref="password" container-classname="mb-3" />
+
+        <!-- Repeat Password Field -->
+        <m-form-input label="Repeat Password" prepend-icon="carbon:password" input-type="password"
+            v-model="state.rpassword" v-model:error-value="state.errors.rpassword" placeholder="Confirm password"
+            autocomplete="new-password" name="rfrpwd" rule="required,min:6,max:15,same:password" title="Repeat Password"
+            container-classname="mb-3" />
+
+        <div class="btn-container text-center p-4">
+            <button type="submit" class="btn btn-success">Register</button>
+        </div>
+    </m-form>
+</template>

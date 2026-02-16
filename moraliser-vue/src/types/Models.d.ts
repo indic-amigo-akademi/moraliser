@@ -6,26 +6,16 @@
 //   }
 // }
 
-export interface UserInfo {
+export interface UserType {
   id: number;
   username: string;
   email: string;
   phone: string;
 }
 
-export interface Link {
-  title: string;
-  description: string;
-  image: string;
-  url: string;
-  site: string;
-  embed: boolean;
-}
-
-export interface Chat {
-  content: string;
-  links: Link[];
-  author: UserInfo;
-  created_at: string;
-  updated_at: string;
+export interface ChatType {
+  sender: UserType;
+  message: string;
+  date: string | Date;
+  isCurrentUser: boolean;
 }
